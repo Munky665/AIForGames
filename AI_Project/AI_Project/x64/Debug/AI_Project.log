@@ -1,0 +1,7 @@
+﻿  Application.cpp
+d:\aie class\ai for games\aiforgamesrepo\ai_project\ai_project\application.cpp(11): warning C4244: 'argument': conversion from 'float' to 'unsigned int', possible loss of data
+d:\aie class\ai for games\aiforgamesrepo\ai_project\ai_project\application.cpp(37): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  GameLoop.cpp
+  main.cpp
+  Generating Code...
+  AI_Project.vcxproj -> D:\Aie Class\AI for games\AiForGamesRepo\AI_Project\x64\Debug\AI_Project.exe
