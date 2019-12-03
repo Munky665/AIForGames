@@ -1,0 +1,9 @@
+﻿  Agent.cpp
+  MathLib.lib(Vector2.obj) : MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; add /LTCG to the link command line to improve linker performance
+LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  Finished generating code
+MathLib.lib(Vector2.obj) : warning LNK4099: PDB 'MathLib.pdb' was not found with 'MathLib.lib(Vector2.obj)' or at 'D:\Aie Classes\AI for Games\JewelThief\AI_Project\temp\TheifGame\x64\Debug\MathLib.pdb'; linking object as if no debug info
+MathLib.lib(Vector4.obj) : warning LNK4099: PDB 'MathLib.pdb' was not found with 'MathLib.lib(Vector4.obj)' or at 'D:\Aie Classes\AI for Games\JewelThief\AI_Project\temp\TheifGame\x64\Debug\MathLib.pdb'; linking object as if no debug info
+  AgentTutorial.vcxproj -> D:\Aie Classes\AI for Games\JewelThief\AI_Project\temp\TheifGame\x64\Debug\TheifGame.exe

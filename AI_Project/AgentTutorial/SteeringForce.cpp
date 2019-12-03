@@ -12,7 +12,3 @@ SteeringForce::~SteeringForce()
 {
 }
 
-//Vector2 SteeringForce::GetForce(Agent* agent)
-//{
-//	return agent->GetForce();
-//}

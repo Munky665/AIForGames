@@ -25,7 +25,14 @@ void Agent::Update(float deltaTime)
 
 	for(auto b : m_BehaviourList)
 	{
-		m_Force += b->Update(this, deltaTime);
+		if (b->Update(this, deltaTime) != Vector2(0, 0)) {
+			m_Force += b->Update(this, deltaTime);
+		}
+		else
+		{
+			m_Force = Vector2(0, 0);
+			m_Velocity = Vector2(0, 0);
+		}
 	}
 	//clamp
 	if (m_Force.magnitude() > m_MaxForce)
