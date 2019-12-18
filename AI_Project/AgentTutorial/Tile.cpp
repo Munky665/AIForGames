@@ -1,4 +1,5 @@
 #include "Tile.h"
+#include <MathLib.h>
 
 
 
@@ -74,4 +75,15 @@ aie::Texture* Tile::GetTexture()
 int Tile::GetId()
 {
 	return id;
+}
+
+Vector2 Tile::GetPosition()
+{
+	return Vector2(PosX, PosY);
+}
+
+void Tile::SetPosition(int x, int y)
+{
+	PosX = x;
+	PosY = y;
 }

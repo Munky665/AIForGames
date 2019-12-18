@@ -1,6 +1,7 @@
 #include "Agent.h"
 #include "Behaviour.h"
 #include <Texture.h>
+#include "Collider.h"
 
 Agent::Agent(Vector2 pos, Vector2 vel, float maxVel, float maxForce)
 {

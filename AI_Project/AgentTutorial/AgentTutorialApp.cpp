@@ -45,7 +45,7 @@ void AgentTutorialApp::update(float deltaTime) {
 		quit();
 	
 	m_player->Update(deltaTime);
-	
+	currentLevel->CheckCollision(m_player);
 }
 
 void AgentTutorialApp::draw() {

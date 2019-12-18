@@ -2,6 +2,9 @@
 #include <Renderer2D.h>
 #include <Texture.h>
 #include <string>
+
+class Vector2;
+
 class Tile
 {
 private:
@@ -17,5 +20,7 @@ public:
 	aie::Texture * GetTexture(int texture);
 	aie::Texture * GetTexture();
 	int GetId();
+	Vector2 GetPosition();
+	void SetPosition(int x, int y);
 };
 

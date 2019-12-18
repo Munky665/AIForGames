@@ -12,6 +12,5 @@ public:
 	virtual Vector2 Update(Agent* ptr, float deltaTime) = 0;
 	virtual~IBehaviour();
 	
-	Vector2 GetOriAsVec(float orientation);
 };
 

@@ -1,6 +1,7 @@
 #include "Level.h"
 #include <fstream>
-
+#include "Collider.h"
+#include "Agent.h"
 
 Level::Level(int w, int h)
 {
@@ -70,6 +71,20 @@ Tile * Level::GetTile(int x, int y)
 	return map[x][y];
 }
 
+void Level::CheckCollision(Agent * agent)
+{
+	for (int x = 0; x < map.size(); x++)
+	{
+		for (int y = 0; y < map.size(); y++)
+		{
+			if (Collider::CheckCollision(agent, map[x][y]) == true)
+			{
+				agent->SetVelocity(Vector2(0, 0));
+			}
+		}
+	}
+}
+
 void Level::LoadLevel()
 {
 	Tile* b   = new Tile(0, 0, 0, false);
@@ -82,16 +97,50 @@ void Level::LoadLevel()
 	Tile* tlw = new Tile(7, 0, 0, false);
 	Tile* brw = new Tile(8, 0, 0, false);
 	Tile* blw = new Tile(9, 0, 0, false);
-	map = { {blw,vw,vw,vw,vw,vw,vw,vw,vw,vw,vw, tlw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hd, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw},
-			{brw,vw,vw,vw,vw,vw,vw,vw,vw,vw,vw, trw} };
+		//	   0  1  2  3  4  5  6  7   8  9  10 11  12  13  14  15  16  17  18  19  20   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+	map = { {blw,vw,vw,vw,vw,vw,vw,vw,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vw, vw, tlw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b},
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hd,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hd, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{brw,vw,vw,vw,vw,vw,vw,vd,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vd, vw,  trw, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vd, vw,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hd,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+			{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vw, vw,  vw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b } };
+
+	for (int x = 0; x < map.size(); x++)
+	{
+		for (int y = 0; y < map.size(); y++)
+		{
+			map[x][y]->SetPosition(x * 64, y * 64);
+		}
+	}
 }
+

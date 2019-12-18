@@ -2,6 +2,7 @@
 #include <vector>
 #include "Tile.h"
 
+class Agent;
 class Level
 {
 private:
@@ -17,7 +18,7 @@ public:
 
 	static void AddTile(int srcX, int srcY, int xPos, int yPos);
 	Tile* GetTile(int x, int y);
-
+	void CheckCollision(Agent* agent);
 	void LoadLevel();
 	int GetWidth();
 	int GetHeight();

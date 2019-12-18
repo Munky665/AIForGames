@@ -166,14 +166,13 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="AgentTutorialApp.cpp" />
     <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="FleeBehaviour.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="KeyboardBehaviour.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SeekBehaviour.cpp" />
-    <ClCompile Include="SteeringBehaviour.cpp" />
-    <ClCompile Include="SteeringForce.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
@@ -181,13 +180,12 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="AgentTutorialApp.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="FleeBehaviour.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="KeyboardBehaviour.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="SeekBehaviour.h" />
-    <ClInclude Include="SteeringBehaviour.h" />
-    <ClInclude Include="SteeringForce.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="WanderBehaviour.h" />
   </ItemGroup>
