@@ -19,14 +19,21 @@ Vector2 SeekBehaviour::Update(Agent * agent, float deltaTime)
 	}
 	else
 	{
+		//get this agents position
 		Vector2 t_agent = agent->GetPosition();
+		//get targets position
 		Vector2 t_target = m_target->GetPosition();
+		//create force vector
 		Vector2 force(0, 0);
-
+		//create direction vector
 		Vector2 direction = t_target - t_agent;
+		//normalise the direction vector
 		direction.normalise();
+		//multiply direction by speed
 		direction *= m_speed;
+		//add direction - velocity to force
 		force = direction - agent->GetVelocity();
+		//return force to agent
 		return force;
 	}
 	

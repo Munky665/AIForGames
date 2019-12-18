@@ -1,5 +1,6 @@
 #include "Agent.h"
 #include "Behaviour.h"
+#include <Texture.h>
 
 Agent::Agent(Vector2 pos, Vector2 vel, float maxVel, float maxForce)
 {
@@ -75,12 +76,6 @@ Vector2 Agent::GetForce()
 	return m_Force;
 }
 
-void Agent::SetColor(float r, float g, float b, float a)
-{
-	m_Color = Vector4(r, g, b, a);
-
-}
-
 
 
 void Agent::AddForce(Vector2 force, float deltaTime)
@@ -91,10 +86,19 @@ void Agent::AddForce(Vector2 force, float deltaTime)
 	}
 }
 
+void Agent::SetSprite(const char * string)
+{
+	sprite = new aie::Texture(string);
+}
+
+void Agent::SetRotation(float num)
+{
+	m_Rotation = num;
+}
+
 void Agent::Draw(aie::Renderer2D* renderer)
 {
-	renderer->setRenderColour(m_Color.x, m_Color.y, m_Color.z, m_Color.w);
-	renderer->drawBox(m_Position.x, m_Position.y, 40, 40);
+	renderer->drawSprite(sprite, m_Position.x, m_Position.y, 40, 40, m_Rotation);
 }
 
 void Agent::AddBehaviour(IBehaviour* behaviour)

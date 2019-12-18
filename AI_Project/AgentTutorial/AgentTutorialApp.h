@@ -6,6 +6,8 @@
 #include "SeekBehaviour.h"
 #include "FleeBehaviour.h"
 #include "WanderBehaviour.h"
+#include "ImageManager.h"
+#include "Level.h"
 
 class AgentTutorialApp : public aie::Application {
 public:
@@ -36,5 +38,10 @@ protected:
 	Agent*				m_wanderingEnemy;
 	WanderBehaviour*	m_wander;
 	
-	
+	ImageManager imageManager;
+
+	Level* currentLevel;
+
+	float cameraOffsetX ;
+	float cameraOffsetY ;
 };

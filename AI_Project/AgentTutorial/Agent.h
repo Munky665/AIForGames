@@ -26,8 +26,10 @@ public:
 	void SetVelocity(Vector2 velocity);
 	Vector2 GetVelocity();
 	Vector2 GetForce();
-	void SetColor(float r, float g, float b, float a);
 	void AddForce(Vector2 force, float deltaTime);
+	void SetSprite(const char* string);
+	void SetRotation(float num);
+
 
 private:
 	std::vector<IBehaviour*> m_BehaviourList;
@@ -35,7 +37,9 @@ private:
 	Vector2 m_Position;
 	Vector2 m_Velocity;
 	Vector4 m_Color;
+	aie::Texture* sprite;
 	float m_MaxVelocity;
 	float m_MaxForce;
+	float m_Rotation;
 };
 

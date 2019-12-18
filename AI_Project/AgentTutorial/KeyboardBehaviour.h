@@ -3,6 +3,8 @@
 class KeyboardBehaviour :
 	public IBehaviour
 {
+private:
+	bool isMoving;
 public:
 	KeyboardBehaviour();
 	virtual ~KeyboardBehaviour();
