@@ -8,7 +8,7 @@ public:
 	WanderBehaviour();
 	~WanderBehaviour();
 
-	virtual Vector2 Update(Agent* agent, float deltaTime);
+	virtual Vector2 Update(Agent* agent, float deltaTime, Level current);
 	void SetTarget(Vector2 target);
 	void SetSpeed(float speed);
 	void SetAngle(Vector2 displacement, float value);

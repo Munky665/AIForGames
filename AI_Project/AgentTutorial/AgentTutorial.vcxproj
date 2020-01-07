@@ -172,6 +172,7 @@
     <ClCompile Include="KeyboardBehaviour.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Rect.cpp" />
     <ClCompile Include="SeekBehaviour.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="KeyboardBehaviour.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Rect.h" />
     <ClInclude Include="SeekBehaviour.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="WanderBehaviour.h" />

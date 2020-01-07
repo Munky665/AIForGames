@@ -7,12 +7,13 @@ class Level
 {
 private:
 	//2d array of tile pointers
-	std::vector<std::vector<Tile*>> map;
+	Tile* map[36][36];
 
 	int w, h;
 
 	void SetDimensions(int w, int h);
 public:
+	Level();
 	Level(int w, int h);
 	~Level();
 

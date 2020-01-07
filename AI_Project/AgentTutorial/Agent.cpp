@@ -2,13 +2,17 @@
 #include "Behaviour.h"
 #include <Texture.h>
 #include "Collider.h"
+#include "Rect.h"
 
-Agent::Agent(Vector2 pos, Vector2 vel, float maxVel, float maxForce)
+Agent::Agent(Vector2 pos, Vector2 vel, float maxVel, float maxForce, int currentX, int currentY)
 {
-	m_Position = pos;
+	m_Position = pos + 10;
 	m_Velocity = vel;
 	m_MaxVelocity = maxVel;
 	m_MaxForce = maxForce;
+	m_CurrentX = currentX;
+	m_CurrentY = currentY;
+	m_collider = new Rect(pos.x , pos.y, 32, 32);
 }
 
 Agent::Agent(Vector2 pos)
@@ -21,35 +25,36 @@ Agent::~Agent()
 {
 }
 
-void Agent::Update(float deltaTime)
+void Agent::Update(float deltaTime, Level currentMap)
 {
-	m_Force = Vector2(0,0);
+	m_collider->x = m_Position.x;
+	m_collider->y = m_Position.y;
+	Vector2 m_Force(0, 0);
 
-	for(auto b : m_BehaviourList)
-	{
-		if (b->Update(this, deltaTime) != Vector2(0, 0)) {
-			m_Force += b->Update(this, deltaTime);
-		}
-		else
-		{
-			m_Force = Vector2(0, 0);
-			m_Velocity = Vector2(0, 0);
-		}
+	for (auto b : m_BehaviourList)
+	{		
+		m_Force = b->Update(this, deltaTime, currentMap);
 	}
+
+	if (m_Force.x == 0 && m_Force.y == 0) {
+		m_Velocity -= m_Velocity;
+	}
+	else {
+		m_Velocity += m_Force * deltaTime;
+	}
+
 	//clamp
 	if (m_Force.magnitude() > m_MaxForce)
 	{
 		m_Force = m_Force.normalise(m_Force) * m_MaxForce;
 	}
-
-	m_Velocity += m_Force * deltaTime;
-
 	if (m_Velocity.magnitude() > m_MaxVelocity)
 	{
 		m_Velocity = m_Velocity.normalise(m_Velocity) * m_MaxVelocity;
 	}
 
-	m_Position += m_Velocity * deltaTime;
+		m_Position += m_Velocity * deltaTime;
+
 }
 
 void Agent::SetPosition(Vector2 position)
@@ -72,10 +77,6 @@ Vector2 Agent::GetVelocity()
 	return m_Velocity;
 }
 
-Vector2 Agent::GetForce()
-{
-	return m_Force;
-}
 
 
 
@@ -89,7 +90,12 @@ void Agent::AddForce(Vector2 force, float deltaTime)
 
 void Agent::SetSprite(const char * string)
 {
+	if(string != "")
 	sprite = new aie::Texture(string);
+	else
+	{
+		sprite = nullptr;
+	}
 }
 
 void Agent::SetRotation(float num)
@@ -97,12 +103,31 @@ void Agent::SetRotation(float num)
 	m_Rotation = num;
 }
 
+Vector2 Agent::CurrentTile()
+{
+	return Vector2(m_CurrentX, m_CurrentY);
+}
+
+void Agent::SetCurrentTile(int x, int y)
+{
+	m_CurrentX = x;
+	m_CurrentY = y;
+}
+
 void Agent::Draw(aie::Renderer2D* renderer)
 {
-	renderer->drawSprite(sprite, m_Position.x, m_Position.y, 40, 40, m_Rotation);
+	if (this->sprite != nullptr)
+		renderer->drawSprite(sprite, m_Position.x, m_Position.y, 32, 32, m_Rotation);
+	else
+		renderer->drawBox(m_Position.x, m_Position.y, 32, 32);
 }
 
 void Agent::AddBehaviour(IBehaviour* behaviour)
 {
 	m_BehaviourList.push_back(behaviour);
+}
+
+Rect* Agent::GetCollider()
+{
+	return m_collider;
 }

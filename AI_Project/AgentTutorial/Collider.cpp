@@ -2,25 +2,22 @@
 #include "Agent.h"
 #include "Tile.h"
 #include <MathLib.h>
+#include "Rect.h"
+
 
 
 Collider::Collider()
 {
 }
 
-bool Collider::CheckCollision(Agent* agent, Tile * tile)
+int Collider::CheckCollision(Rect* one, Rect* two, Vector2 vel)
 {
-	if (tile->GetId() != 4 || tile->GetId() != 5 || tile->GetId() != 1) {
-		Vector2 col = (agent->GetPosition() + agent->GetVelocity()) - tile->GetPosition();
-		float mag = col.magnitude();
-
-		if (mag < 64)
-			return true;
-		else
-			return false;
-	}
-	else
-		return false;
+	vel = vel.normalised();
+	if (one->x + one->width / 2  + vel.x < two->x - two->width / 2) return 0;
+	if (one->x - one->width / 2  + vel.x > two->x + two->width / 2) return 0;
+	if (one->y + one->height / 2 + vel.y < two->y - two->height / 2) return 0;
+	if (one->y - one->height / 2 + vel.y > two->y + two->height / 2) return 0;
+	return 1;
 }
 
 

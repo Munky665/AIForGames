@@ -42,6 +42,7 @@ protected:
 
 	Level* currentLevel;
 
-	float cameraOffsetX ;
-	float cameraOffsetY ;
+	float cameraOffsetX;
+	float cameraOffsetY;
+	int	  playerOffset = 300;
 };

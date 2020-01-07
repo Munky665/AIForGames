@@ -2,6 +2,11 @@
 #include <fstream>
 #include "Collider.h"
 #include "Agent.h"
+#include <sstream>
+
+Level::Level()
+{
+}
 
 Level::Level(int w, int h)
 {
@@ -22,24 +27,23 @@ int Level::GetHeight()
 
 void Level::DrawFloor(aie::Renderer2D * renderer)
 {
-	for (int x = 0; x < map.size(); x++)
+	for (int x = 0; x < w; x++)
 	{
-		for (int y = 0; y < map.size(); y++)
-		{
-			if(map[x][y]->GetId() != 4 || map[x][y]->GetId() != 5)
-			renderer->drawSprite(map[x][y]->GetTexture(), x * 64, y * 64);
+		for (int y = 0; y < h; y++) {
+			if (map[x][y]->GetId() != 4 || map[x][y]->GetId() != 5)
+					map[x][y]->Draw(renderer);
 		}
 	}
 }
 
 void Level::DrawDoors(aie::Renderer2D * renderer)
 {
-	for (int x = 0; x < map.size(); x++)
+	for (int x = 0; x < w; x++)
 	{
-		for (int y = 0; y < map.size(); y++)
-		{
+		for (int y = 0; y < h; y++) {
 			if (map[x][y]->GetId() == 4 || map[x][y]->GetId() == 5)
-				renderer->drawSprite(map[x][y]->GetTexture(), x * 64, y * 64);
+				map[x][y]->Draw(renderer);
+				//renderer->drawSprite(map[x][y]->GetTexture(), map[x][y]->GetPosition().x, map[x][y]->GetPosition().y, 64, 64);
 		}
 	}
 }
@@ -51,13 +55,11 @@ int Level::GetWidth()
 
 void Level::SetDimensions(int w, int h)
 {
-	//rows
-	map.resize(w);
 
 	//each row has h colums of null tile pointers
 	for (int i = 0; i < 2; i++)
 	{
-		map.at(i).resize(h, 0);
+		
 	}
 }
 
@@ -73,74 +75,99 @@ Tile * Level::GetTile(int x, int y)
 
 void Level::CheckCollision(Agent * agent)
 {
-	for (int x = 0; x < map.size(); x++)
+	/*for (int x = 0; x < 64; x++)
 	{
-		for (int y = 0; y < map.size(); y++)
+
+		if (Collider::CheckCollision(agent, map[x]) == true)
 		{
-			if (Collider::CheckCollision(agent, map[x][y]) == true)
-			{
-				agent->SetVelocity(Vector2(0, 0));
-			}
+			agent->SetVelocity(Vector2(0, 0));
 		}
-	}
+
+	}*/
 }
 
 void Level::LoadLevel()
 {
-	Tile* b   = new Tile(0, 0, 0, false);
-	Tile* f   = new Tile(1, 0, 0, true);
-	Tile* hw  = new Tile(2, 0, 0, false);
-	Tile* vw  = new Tile(3, 0, 0, false);
-	Tile* hd  = new Tile(4, 0, 0, true);
-	Tile* vd  = new Tile(5, 0, 0, true);
-	Tile* trw = new Tile(6, 0, 0, false);
-	Tile* tlw = new Tile(7, 0, 0, false);
-	Tile* brw = new Tile(8, 0, 0, false);
-	Tile* blw = new Tile(9, 0, 0, false);
-		//	   0  1  2  3  4  5  6  7   8  9  10 11  12  13  14  15  16  17  18  19  20   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
-	map = { {blw,vw,vw,vw,vw,vw,vw,vw,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vw, vw, tlw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b},
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hd,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hd, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{brw,vw,vw,vw,vw,vw,vw,vd,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vd, vw,  trw, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vd, vw,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hd,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
-			{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vw, vw,  vw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b } };
 
-	for (int x = 0; x < map.size(); x++)
+	std::ifstream fileIn;
+	fileIn.open("../bin/MapLayout.txt", std::ios::in);
+	int id[36][36];
+	int x = 0;
+	int y = 0;
+
+
+	if (fileIn.is_open())
 	{
-		for (int y = 0; y < map.size(); y++)
+		while (!fileIn.eof())
 		{
-			map[x][y]->SetPosition(x * 64, y * 64);
+			std::string s;
+			if (!std::getline(fileIn, s)) break;
+			std::istringstream ss(s);
+			std::vector<std::string> record;
+			while (ss)
+			{
+				std::string s;
+				if (!std::getline(ss, s, ',')) break;
+				if(s != "n")record.push_back(s);
+			}
+			record.resize(36);
+			for (int i = 0; i < record.size(); i++)
+			{
+				id[x][i] = std::stoi(record[i]);
+			}
+			x++;
+		}
+		fileIn.close();
+	}
+
+
+	for (x = 0; x < w; x++)
+	{
+		for (y = 0; y < h; y++)
+		{
+			Tile* temp = new Tile(id[x][y], (x * 64), (y * 64));
+			temp->SetPosition(x * 64, y * 64);
+			map[x][y] = temp;
 		}
 	}
+
+	//	//	   0  1  2  3  4  5  6  7   8  9  10 11  12  13  14  15  16  17  18  19  20   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+	//map = { {blw,vw,vw,vw,vw,vw,vw,vw,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vw, vw, tlw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b},
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hd,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hd, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{hw, f, f, f, f, f, hw, f, f, f, f, hw,  f,  f,  f,  f, f ,  f,  f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{brw,vw,vw,vw,vw,vw,vw,vd,vw,vw,vw, vw, vw, vw, vw, vw, vw, vw, vd, vw,  trw, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f, f,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vd, vw,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b },
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hd,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw, f, f, f, f,  f, f,   f,hw,   f,  f, f,   f,  f,  hw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b }, 
+	//		{  b, b, b, b, b, b,hw,vw,vw,vw,vw, vw,vw,  vw,vw,  vw, vw, vw, vw, vw,  vw , b, b, b, b, b, b, b, b, b, b, b, b, b, b, b } };
+
 }
 

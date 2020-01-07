@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Input.h"
 
+
 AgentTutorialApp::AgentTutorialApp() {
 
 }
@@ -17,15 +18,22 @@ bool AgentTutorialApp::startup() {
 	setBackgroundColour(0.475, 0.475, 0.475, 1);
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	currentLevel = new Level(100,100);
+	currentLevel = new Level(36, 36);
 	currentLevel->LoadLevel();
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-	m_player = new Agent(Vector2(100.0f, 100.0f),Vector2(0,0), 150, 500);
+	m_player = new Agent(Vector2(currentLevel->GetTile(1,1)->GetPosition()),Vector2(0,0), 150, 500, 1,1);
 	m_player->SetSprite("../bin/Sprites/Player.png");
 	m_keyboardBehaviour = new KeyboardBehaviour();
 	m_player->AddBehaviour(m_keyboardBehaviour);
+
+
+	m_wanderingEnemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), Vector2(0, 0), 150, 500, 1, 1);
+	m_wanderingEnemy->SetSprite("");
+	m_wander = new WanderBehaviour();
+	m_wanderingEnemy->AddBehaviour(m_wander);
+
 	cameraOffsetX = getWindowWidth() / 2;
-	cameraOffsetY = (getWindowHeight() - 300) / 2;
+	cameraOffsetY = (getWindowHeight() - playerOffset) / 2;
 	return true;
 }
 
@@ -44,7 +52,8 @@ void AgentTutorialApp::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
 	
-	m_player->Update(deltaTime);
+	m_wanderingEnemy->Update(deltaTime, *currentLevel);
+	m_player->Update(deltaTime, *currentLevel);
 	currentLevel->CheckCollision(m_player);
 }
 
@@ -62,6 +71,7 @@ void AgentTutorialApp::draw() {
 	currentLevel->DrawFloor(m_2dRenderer);
 	// draw your stuff here!
 	m_player->Draw(m_2dRenderer);
+	m_wanderingEnemy->Draw(m_2dRenderer);
 	currentLevel->DrawDoors(m_2dRenderer);
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);

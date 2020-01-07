@@ -2,18 +2,18 @@
 #include <Renderer2D.h>
 #include <Texture.h>
 #include <string>
-
-class Vector2;
-
+#include <MathLib.h>
+#include "Rect.h"
 class Tile
 {
 private:
 	aie::Texture* m_tile;
-	int PosX, PosY;
+	float PosX, PosY;
 	bool walkable;
+	Vector2 position;
 	int id;
 public:
-	Tile(int texture, int x, int y, bool walkable);
+	Tile(int texture, float x, float y);
 	Tile(aie::Texture * tile);
 	void Draw( aie::Renderer2D* renderer);
 	~Tile();
@@ -21,6 +21,8 @@ public:
 	aie::Texture * GetTexture();
 	int GetId();
 	Vector2 GetPosition();
-	void SetPosition(int x, int y);
+	void SetPosition(float x, float y);
+	bool IsWalkable();
+	Rect* collider;
 };
 

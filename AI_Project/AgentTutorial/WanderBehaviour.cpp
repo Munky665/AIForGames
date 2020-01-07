@@ -13,7 +13,7 @@ WanderBehaviour::~WanderBehaviour()
 {
 }
 
-Vector2 WanderBehaviour::Update(Agent* agent, float deltaTime)
+Vector2 WanderBehaviour::Update(Agent* agent, float deltaTime, Level current)
 {
 	float distance = 0;
 	Vector2 targetMag(0, 0);
@@ -31,6 +31,7 @@ Vector2 WanderBehaviour::Update(Agent* agent, float deltaTime)
 		direction.normalise();
 		direction *= m_speed;
 		force = agent->GetVelocity() + direction;
+		
 		return force;
 	}
 
