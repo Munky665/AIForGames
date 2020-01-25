@@ -2,7 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
-
+#include "FSMState.h"
 
 AgentTutorialApp::AgentTutorialApp() {
 
@@ -29,8 +29,29 @@ bool AgentTutorialApp::startup() {
 
 	m_enemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), Vector2(0, 0), 150, 500, 1, 1);
 	m_enemy->SetSprite("");
+	
 	m_Behaviour = new FSM();
 	m_enemy->AddBehaviour(m_Behaviour);
+
+	auto attackState = new AttackState(m_player, 100);
+	auto idleState = new IdleState();
+
+	auto inRange = new WithinRange(m_player, 50);
+	auto toAttackTransition = new Transition(attackState, inRange);
+
+	auto toIdleTransition = new Transition(idleState, inRange);
+
+	idleState->AddTrasition(toAttackTransition);
+
+	m_Behaviour->AddState(attackState);
+	m_Behaviour->AddState(idleState);
+
+	m_Behaviour->AddTransition(toAttackTransition);
+	m_Behaviour->AddCondition(inRange);
+
+
+
+	m_Behaviour->SetCurrentState(idleState);
 
 	cameraOffsetX = getWindowWidth() / 2;
 	cameraOffsetY = (getWindowHeight() - playerOffset) / 2;
@@ -52,7 +73,7 @@ void AgentTutorialApp::update(float deltaTime) {
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
 	
-	m_wanderingEnemy->Update(deltaTime, *currentLevel);
+	m_enemy->Update(deltaTime, *currentLevel);
 	m_player->Update(deltaTime, *currentLevel);
 	currentLevel->CheckCollision(m_player);
 }
@@ -71,7 +92,7 @@ void AgentTutorialApp::draw() {
 	currentLevel->DrawFloor(m_2dRenderer);
 	// draw your stuff here!
 	m_player->Draw(m_2dRenderer);
-	m_wanderingEnemy->Draw(m_2dRenderer);
+	m_enemy->Draw(m_2dRenderer);
 	currentLevel->DrawDoors(m_2dRenderer);
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);

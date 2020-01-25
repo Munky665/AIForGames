@@ -5,6 +5,11 @@ IdleState::IdleState()
 {
 }
 
+void IdleState::Init(Agent * a)
+{
+	a->SetVelocity(Vector2());
+}
+
 IdleState::~IdleState()
 {
 }
@@ -41,4 +46,24 @@ bool WithinRange::Test(Agent* a) const {
 		return true;
 	else
 		return false;
+}
+
+ConditionalAND::ConditionalAND(const Condition * ca, const Condition * cb)
+	:a{ca}, b {cb}
+{
+}
+
+bool ConditionalAND::Test(Agent * ag) const
+{
+	return a->Test(ag) || b->Test(ag);
+}
+
+ConditionalNOT::ConditionalNOT(const Condition * ca)
+	: a{ ca }
+{
+}
+
+bool ConditionalNOT::Test(Agent * ag) const
+{
+	return !a->Test(ag);
 }
