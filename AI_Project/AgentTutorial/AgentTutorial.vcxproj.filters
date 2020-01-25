@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{a9f3991f-0f44-4370-8fbc-8b31bc636df9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\FSM">
+      <UniqueIdentifier>{004eb255-95b0-4eec-a666-a8c55fa5a6b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FSM">
+      <UniqueIdentifier>{1328c057-b6f2-4630-89b8-b83b0a9cdf9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AgentTutorialApp.cpp">
@@ -66,6 +72,18 @@
     <ClCompile Include="WanderBehaviour.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>Source Files\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMCondition.cpp">
+      <Filter>Source Files\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMState.cpp">
+      <Filter>Source Files\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMTransition.cpp">
+      <Filter>Source Files\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AgentTutorialApp.h">
@@ -103,6 +121,21 @@
     </ClInclude>
     <ClInclude Include="WanderBehaviour.h">
       <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>Header Files\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMCondition.h">
+      <Filter>Header Files\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMState.h">
+      <Filter>Header Files\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMTransition.h">
+      <Filter>Header Files\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

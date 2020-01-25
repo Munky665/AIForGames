@@ -27,10 +27,10 @@ bool AgentTutorialApp::startup() {
 	m_player->AddBehaviour(m_keyboardBehaviour);
 
 
-	m_wanderingEnemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), Vector2(0, 0), 150, 500, 1, 1);
-	m_wanderingEnemy->SetSprite("");
-	m_wander = new WanderBehaviour();
-	m_wanderingEnemy->AddBehaviour(m_wander);
+	m_enemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), Vector2(0, 0), 150, 500, 1, 1);
+	m_enemy->SetSprite("");
+	m_Behaviour = new FSM();
+	m_enemy->AddBehaviour(m_Behaviour);
 
 	cameraOffsetX = getWindowWidth() / 2;
 	cameraOffsetY = (getWindowHeight() - playerOffset) / 2;

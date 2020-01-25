@@ -8,6 +8,7 @@
 #include "WanderBehaviour.h"
 #include "ImageManager.h"
 #include "Level.h"
+#include "FSM.h"
 
 class AgentTutorialApp : public aie::Application {
 public:
@@ -30,7 +31,7 @@ protected:
 	KeyboardBehaviour*   m_keyboardBehaviour;
 
 	Agent*				m_enemy;
-	SeekBehaviour*		m_followerBehaviour;
+	FSM*				m_Behaviour;
 
 	Agent*				m_fleeingEnemy;
 	FleeBehaviour*      m_fleeingBehaviour;

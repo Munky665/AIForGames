@@ -37,7 +37,7 @@ void Agent::Update(float deltaTime, Level currentMap)
 	}
 
 	if (m_Force.x == 0 && m_Force.y == 0) {
-		m_Velocity -= m_Velocity;
+		m_Velocity = m_Velocity / 2;
 	}
 	else {
 		m_Velocity += m_Force * deltaTime;
@@ -62,7 +62,7 @@ void Agent::SetPosition(Vector2 position)
 	m_Position = position;
 }
 
-Vector2 Agent::GetPosition()
+Vector2 Agent::GetPosition() const
 {
 	return m_Position;
 }

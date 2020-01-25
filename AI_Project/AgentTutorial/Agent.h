@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include <MathLib.h>
 #include "Renderer2D.h"
@@ -25,7 +24,7 @@ public:
 	Rect* GetCollider();
 	//Movement functions
 	void SetPosition(Vector2 position);
-	Vector2 GetPosition();
+	Vector2 GetPosition() const;
 	void SetVelocity(Vector2 velocity);
 	Vector2 GetVelocity();
 	void AddForce(Vector2 force, float deltaTime);
