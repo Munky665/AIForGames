@@ -59,11 +59,11 @@ bool ConditionalAND::Test(Agent * ag) const
 }
 
 ConditionalNOT::ConditionalNOT(const Condition * ca)
-	: a{ ca }
+	: condition{ ca }
 {
 }
 
 bool ConditionalNOT::Test(Agent * ag) const
 {
-	return !a->Test(ag);
+	return !condition->Test(ag);
 }

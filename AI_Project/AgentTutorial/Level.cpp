@@ -10,7 +10,6 @@ Level::Level()
 
 Level::Level(int w, int h)
 {
-	SetDimensions(w, h);
 	this->w = w;
 	this->h = h;
 }
@@ -53,49 +52,21 @@ int Level::GetWidth()
 	return w;
 }
 
-void Level::SetDimensions(int w, int h)
-{
-
-	//each row has h colums of null tile pointers
-	for (int i = 0; i < 2; i++)
-	{
-		
-	}
-}
-
-void Level::AddTile(int srcX, int srcY, int xPos, int yPos)
-{
-	
-}
-
 Tile * Level::GetTile(int x, int y)
 {
 	return map[x][y];
 }
 
-void Level::CheckCollision(Agent * agent)
-{
-	/*for (int x = 0; x < 64; x++)
-	{
-
-		if (Collider::CheckCollision(agent, map[x]) == true)
-		{
-			agent->SetVelocity(Vector2(0, 0));
-		}
-
-	}*/
-}
-
 void Level::LoadLevel()
 {
-
+	//open mapfile
 	std::ifstream fileIn;
 	fileIn.open("../bin/MapLayout.txt", std::ios::in);
 	int id[36][36];
 	int x = 0;
 	int y = 0;
 
-
+	//if file open read map details to tile then add tile to array
 	if (fileIn.is_open())
 	{
 		while (!fileIn.eof())

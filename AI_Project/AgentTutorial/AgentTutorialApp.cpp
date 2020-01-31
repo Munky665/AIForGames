@@ -21,37 +21,42 @@ bool AgentTutorialApp::startup() {
 	currentLevel = new Level(36, 36);
 	currentLevel->LoadLevel();
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-	m_player = new Agent(Vector2(currentLevel->GetTile(1,1)->GetPosition()),Vector2(0,0), 150, 500, 1,1);
+	
+	//setup player agent
+	m_player = new Agent(Vector2(currentLevel->GetTile(1,1)->GetPosition()), 150, 500);
 	m_player->SetSprite("../bin/Sprites/Player.png");
 	m_keyboardBehaviour = new KeyboardBehaviour();
 	m_player->AddBehaviour(m_keyboardBehaviour);
 
-
-	m_enemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), Vector2(0, 0), 150, 500, 1, 1);
+	//setup Enemy Agent
+	m_enemy = new Agent(currentLevel->GetTile(8, 1)->GetPosition(), 150, 500);
 	m_enemy->SetSprite("");
-	
-	m_Behaviour = new FSM();
-	m_enemy->AddBehaviour(m_Behaviour);
-
+	m_stateMachine = new FSM();
+	m_enemy->AddBehaviour(m_stateMachine);
+	//set states
 	auto attackState = new AttackState(m_player, 100);
 	auto idleState = new IdleState();
-
-	auto inRange = new WithinRange(m_player, 50);
+	//set conditions
+	auto inRange = new WithinRange(m_player, 200);
+	auto notInRange = new ConditionalNOT(inRange);
+	//set state transitions
 	auto toAttackTransition = new Transition(attackState, inRange);
-
-	auto toIdleTransition = new Transition(idleState, inRange);
-
+	auto toIdleTransition = new Transition(idleState, notInRange);
+	//add transitions to states
 	idleState->AddTrasition(toAttackTransition);
+	attackState->AddTrasition(toIdleTransition);
+	//add states to state machine
+	m_stateMachine->AddState(attackState);
+	m_stateMachine->AddState(idleState);
+	//add transition to attack state
+	m_stateMachine->AddTransition(toAttackTransition);
+	m_stateMachine->AddCondition(inRange);
+	//add transition to idole state
+	m_stateMachine->AddTransition(toIdleTransition);
+	m_stateMachine->AddCondition(notInRange);
 
-	m_Behaviour->AddState(attackState);
-	m_Behaviour->AddState(idleState);
-
-	m_Behaviour->AddTransition(toAttackTransition);
-	m_Behaviour->AddCondition(inRange);
-
-
-
-	m_Behaviour->SetCurrentState(idleState);
+	//set defualt state
+	m_stateMachine->SetCurrentState(idleState);
 
 	cameraOffsetX = getWindowWidth() / 2;
 	cameraOffsetY = (getWindowHeight() - playerOffset) / 2;
@@ -75,7 +80,7 @@ void AgentTutorialApp::update(float deltaTime) {
 	
 	m_enemy->Update(deltaTime, *currentLevel);
 	m_player->Update(deltaTime, *currentLevel);
-	currentLevel->CheckCollision(m_player);
+
 }
 
 void AgentTutorialApp::draw() {

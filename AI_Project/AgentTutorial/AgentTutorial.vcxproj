@@ -191,9 +191,11 @@
     <ClInclude Include="FSMCondition.h" />
     <ClInclude Include="FSMState.h" />
     <ClInclude Include="FSMTransition.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="KeyboardBehaviour.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="SeekBehaviour.h" />
     <ClInclude Include="State.h" />

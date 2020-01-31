@@ -47,7 +47,7 @@ public:
 class ConditionalNOT : public Condition
 {
 protected:
-	const Condition* a;
+	const Condition* condition;
 public:
 	ConditionalNOT(const Condition* ca);
 	bool Test(Agent* ag) const override;

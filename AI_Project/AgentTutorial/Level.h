@@ -11,15 +11,12 @@ private:
 
 	int w, h;
 
-	void SetDimensions(int w, int h);
 public:
 	Level();
 	Level(int w, int h);
 	~Level();
 
-	static void AddTile(int srcX, int srcY, int xPos, int yPos);
 	Tile* GetTile(int x, int y);
-	void CheckCollision(Agent* agent);
 	void LoadLevel();
 	int GetWidth();
 	int GetHeight();

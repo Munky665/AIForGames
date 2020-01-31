@@ -10,6 +10,8 @@
 #include "Level.h"
 #include "FSM.h"
 
+#include "Graph.h"
+
 class AgentTutorialApp : public aie::Application {
 public:
 
@@ -31,7 +33,7 @@ protected:
 	KeyboardBehaviour*   m_keyboardBehaviour;
 
 	Agent*				m_enemy;
-	FSM*				m_Behaviour;
+	FSM*				m_stateMachine;
 
 	Agent*				m_fleeingEnemy;
 	FleeBehaviour*      m_fleeingBehaviour;
@@ -42,6 +44,8 @@ protected:
 	ImageManager imageManager;
 
 	Level* currentLevel;
+
+	std::vector<PF::Node> nodeList;
 
 	float cameraOffsetX;
 	float cameraOffsetY;

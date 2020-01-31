@@ -4,14 +4,11 @@
 #include "Collider.h"
 #include "Rect.h"
 
-Agent::Agent(Vector2 pos, Vector2 vel, float maxVel, float maxForce, int currentX, int currentY)
+Agent::Agent(Vector2 pos, float maxVel, float maxForce)
 {
 	m_Position = pos + 10;
-	m_Velocity = vel;
 	m_MaxVelocity = maxVel;
 	m_MaxForce = maxForce;
-	m_CurrentX = currentX;
-	m_CurrentY = currentY;
 	m_collider = new Rect(pos.x , pos.y, 32, 32);
 }
 
@@ -29,7 +26,9 @@ void Agent::Update(float deltaTime, Level currentMap)
 {
 	m_collider->x = m_Position.x;
 	m_collider->y = m_Position.y;
+	
 	Vector2 m_Force(0, 0);
+	m_Velocity -= m_Velocity;
 
 	for (auto b : m_BehaviourList)
 	{		
@@ -40,7 +39,7 @@ void Agent::Update(float deltaTime, Level currentMap)
 		m_Velocity = m_Velocity / 2;
 	}
 	else {
-		m_Velocity += m_Force * deltaTime;
+		m_Velocity = m_Force;
 	}
 
 	//clamp
@@ -52,8 +51,20 @@ void Agent::Update(float deltaTime, Level currentMap)
 	{
 		m_Velocity = m_Velocity.normalise(m_Velocity) * m_MaxVelocity;
 	}
-
-		m_Position += m_Velocity * deltaTime;
+	
+	//check collisions
+	for (int x = 0; x < 36; x++) {
+		for (int y = 0; y < 36; y++) {
+			if (currentMap.GetTile(x, y)->IsWalkable() == false) {
+				if (Collider::CheckCollision(this->GetCollider(), currentMap.GetTile(x, y)->collider, GetVelocity()) == 1)
+				{
+					m_Velocity -= m_Velocity;
+				}
+			}
+		}
+	}
+	//set velocity
+	m_Position += m_Velocity * deltaTime;
 
 }
 
@@ -91,10 +102,10 @@ void Agent::AddForce(Vector2 force, float deltaTime)
 void Agent::SetSprite(const char * string)
 {
 	if(string != "")
-	sprite = new aie::Texture(string);
+	m_sprite = new aie::Texture(string);
 	else
 	{
-		sprite = nullptr;
+		m_sprite = nullptr;
 	}
 }
 
@@ -116,8 +127,8 @@ void Agent::SetCurrentTile(int x, int y)
 
 void Agent::Draw(aie::Renderer2D* renderer)
 {
-	if (this->sprite != nullptr)
-		renderer->drawSprite(sprite, m_Position.x, m_Position.y, 32, 32, m_Rotation);
+	if (this->m_sprite != nullptr)
+		renderer->drawSprite(m_sprite, m_Position.x, m_Position.y, 32, 32, m_Rotation);
 	else
 		renderer->drawBox(m_Position.x, m_Position.y, 32, 32);
 }

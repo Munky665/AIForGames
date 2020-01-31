@@ -1,51 +1,5 @@
 #include <iostream>
-#include <string>
-#include <unordered_map>
-
-enum ItemTypes {
-	type_float,
-	type_int,
-	type_bool,
-	type_char,
-	type_ptr
-};
-
-struct ItemType
-{
-	ItemTypes type;
-	union 
-	{
-		float float_val;
-		int int_val;
-		bool bool_val;
-		char char_val;
-		void* ptr_val;
-	};
-};
-
-class BlackBoard {
-public:
-	
-	std::unordered_map<std::string, ItemType> m_data;
-
-	void set(std::string s, int a)
-	{
-		m_data[s].type = ItemTypes::type_int;
-		m_data[s].int_val = a;
-
-	}
-
-	bool get(std::string v, int& out)
-	{
-		auto f = m_data.find(v);
-		if (f != m_data.end() && f->second.type == ItemTypes::type_int)
-		{
-			out = m_data[v].int_val;
-			return true;
-		}
-		return false;
-	}
-};
+#include "Blackboard.h"
 
 int main()
 {
