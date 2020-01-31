@@ -43,7 +43,7 @@ protected:
 	
 	ImageManager imageManager;
 
-	Level* currentLevel;
+	Level* currentLevel; f
 
 	std::vector<PF::Node> nodeList;
 
