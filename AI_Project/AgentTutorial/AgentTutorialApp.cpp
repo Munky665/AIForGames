@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Input.h"
 #include "FSMState.h"
+#include "Tile.h"
 
 AgentTutorialApp::AgentTutorialApp() {
 
@@ -21,6 +22,8 @@ bool AgentTutorialApp::startup() {
 	currentLevel = new Level(36, 36);
 	currentLevel->LoadLevel();
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	
+	MakeGrid(currentLevel->GetHeight(), currentLevel->GetWidth());
 	
 	//setup player agent
 	m_player = new Agent(Vector2(currentLevel->GetTile(1,1)->GetPosition()), 150, 500);
@@ -60,6 +63,8 @@ bool AgentTutorialApp::startup() {
 
 	cameraOffsetX = getWindowWidth() / 2;
 	cameraOffsetY = (getWindowHeight() - playerOffset) / 2;
+
+
 	return true;
 }
 
@@ -99,10 +104,62 @@ void AgentTutorialApp::draw() {
 	m_player->Draw(m_2dRenderer);
 	m_enemy->Draw(m_2dRenderer);
 	currentLevel->DrawDoors(m_2dRenderer);
+
+	for (int i = 0; i < 36; ++i)
+	{
+		for (int j = 0; j < 36; ++j)
+		{
+			m_2dRenderer->drawCircle(nodeList[i][j].position.x, nodeList[i][j].position.y, 5);
+		}
+	}
+
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
 
 	// done drawing sprites
 	m_2dRenderer->end();
+}
+
+void AgentTutorialApp::MakeGrid(int MapX, int MapY)
+{
+	for (int i = 0; i < MapX; ++i)
+	{
+		for (int j = 0; j < MapY; ++j)
+		{
+			//check if previous node can be connected to
+			if ((j - 1) >= 0)
+			{
+				if(currentLevel->GetTile(i,j)->IsWalkable() == true)
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i][j - 1], 1.0f });
+				else
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i][j - 1], 100.0f });
+			}
+			//check if next node can be connected to
+			if ((j + 1) < MapY - 1)
+			{
+				if (currentLevel->GetTile(i, j)->IsWalkable() == true)
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i][j + 1], 1.0f });
+				else
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i][j + 1], 100.0f });
+			}
+			//check if node above can be connected to
+			if ((i + 1) < MapY)
+			{
+				if (currentLevel->GetTile(i, j)->IsWalkable() == true)
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i + 1][j], 1.0f });
+				else
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i + 1][j], 100.0f });
+			}
+			//check if node below can be connected to
+			if ((i-1) >= 0)
+			{
+				if (currentLevel->GetTile(i, j)->IsWalkable() == true)
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i -1][j], 1.0f });
+				else
+					nodeList[i][j].connections.push_back(Edge{ &nodeList[i - 1][j], 100.0f });
+			}
+			nodeList[i][j].position = currentLevel->GetTile(i, j)->GetPosition();
+		}
+	}
 }
 

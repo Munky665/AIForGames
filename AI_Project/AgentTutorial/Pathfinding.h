@@ -6,10 +6,12 @@
 namespace PF
 {
 
+
 	class Dijkstra
 	{
 		Dijkstra() {};
 		~Dijkstra() {};
+
 
 		std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 		{

@@ -24,6 +24,8 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+	void MakeGrid(int MapX, int MapY);
+
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
@@ -43,9 +45,9 @@ protected:
 	
 	ImageManager imageManager;
 
-	Level* currentLevel; f
+	Level* currentLevel;
 
-	std::vector<PF::Node> nodeList;
+	Node nodeList[36][36];
 
 	float cameraOffsetX;
 	float cameraOffsetY;

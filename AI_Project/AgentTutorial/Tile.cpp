@@ -109,6 +109,9 @@ bool Tile::IsWalkable()
 {
 	if (this != nullptr)
 		return walkable;
-	else
-		return false;
+}
+
+void Tile::SetWalkable(bool walkable)
+{
+	this->walkable = walkable;
 }

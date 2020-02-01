@@ -52,7 +52,7 @@ int Level::GetWidth()
 	return w;
 }
 
-Tile * Level::GetTile(int x, int y)
+Tile* Level::GetTile(int x, int y)
 {
 	return map[x][y];
 }

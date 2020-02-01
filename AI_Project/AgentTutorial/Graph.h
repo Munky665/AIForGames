@@ -1,23 +1,23 @@
-#pragma once
+
 #include <MathLib.h>
 #include <vector>
 #include <list>
 #include <limits>
 
-namespace PF {
+struct Edge;
+struct Node;
 
-	struct Node {
-		Vector2 position{ 0,0 };
-		float gScore = std::numeric_limits<float>::max();
-		Node* parent = nullptr;
+struct Node {
+	Vector2 position{ 0,0 };
+	float gScore = std::numeric_limits<float>::max();
+	Node* parent = nullptr;
 
-		std::list<Edge> connections;
-	};
+	std::list<Edge> connections;
+};
 
-	struct Edge
-	{
-		Node* target;
-		float cost;
+struct Edge
+{
+	Node* target;
+	float cost;
 
-	};
-}
+};

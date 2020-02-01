@@ -23,6 +23,7 @@ public:
 	Vector2 GetPosition();
 	void SetPosition(float x, float y);
 	bool IsWalkable();
+	void SetWalkable(bool walkable);
 	Rect* collider;
 };
 
