@@ -1,9 +1,10 @@
 #pragma once
+#include<glm/glm.hpp>
 
 class Agent;
 class Tile;
 class Rect;
-class Vector2;
+
 
 class Collider
 {
@@ -11,7 +12,7 @@ class Collider
 public:
 
 	Collider();
-	static int CheckCollision(Rect* one, Rect* two, Vector2 vel);
+	static int CheckCollision(Rect* one, Rect* two, glm::vec2 vel);
 	~Collider();
 	
 

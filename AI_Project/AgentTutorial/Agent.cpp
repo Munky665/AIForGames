@@ -3,16 +3,17 @@
 #include <Texture.h>
 #include "Collider.h"
 #include "Rect.h"
+#include <iostream>
 
-Agent::Agent(Vector2 pos, float maxVel, float maxForce)
+Agent::Agent(glm::vec2 pos, float maxVel, float maxForce)
 {
-	m_Position = pos + 10;
+	m_Position = pos;
 	m_MaxVelocity = maxVel;
 	m_MaxForce = maxForce;
 	m_collider = new Rect(pos.x , pos.y, 32, 32);
 }
 
-Agent::Agent(Vector2 pos)
+Agent::Agent(glm::vec2 pos)
 {
 	m_Position = pos;
 }
@@ -22,68 +23,37 @@ Agent::~Agent()
 {
 }
 
-void Agent::Update(float deltaTime, Level currentMap)
+void Agent::Update(float deltaTime, std::vector<Node> node)
 {
 	m_collider->x = m_Position.x;
 	m_collider->y = m_Position.y;
-	
-	Vector2 m_Force(0, 0);
-	m_Velocity -= m_Velocity;
+
+	glm::vec2 m_Force(0, 0);
 
 	for (auto b : m_BehaviourList)
-	{		
-		m_Force = b->Update(this, deltaTime, currentMap);
-	}
-
-	if (m_Force.x == 0 && m_Force.y == 0) {
-		m_Velocity = m_Velocity / 2;
-	}
-	else {
-		m_Velocity = m_Force;
-	}
-
-	//clamp
-	if (m_Force.magnitude() > m_MaxForce)
 	{
-		m_Force = m_Force.normalise(m_Force) * m_MaxForce;
+		m_Force = b->Update(this, deltaTime, node);
 	}
-	if (m_Velocity.magnitude() > m_MaxVelocity)
-	{
-		m_Velocity = m_Velocity.normalise(m_Velocity) * m_MaxVelocity;
-	}
-	
-	//check collisions
-	for (int x = 0; x < 36; x++) {
-		for (int y = 0; y < 36; y++) {
-			if (currentMap.GetTile(x, y)->IsWalkable() == false) {
-				if (Collider::CheckCollision(this->GetCollider(), currentMap.GetTile(x, y)->collider, GetVelocity()) == 1)
-				{
-					m_Velocity -= m_Velocity;
-				}
-			}
-		}
-	}
-	//set velocity
-	m_Position += m_Velocity * deltaTime;
-
+	std::cout << m_Force.x << " " << m_Force.y << "  Force" << std::endl;
+	//glm::normalize(m_Force);
 }
 
-void Agent::SetPosition(Vector2 position)
+void Agent::SetPosition(glm::vec2 position)
 {
 	m_Position = position;
 }
 
-Vector2 Agent::GetPosition() const
+glm::vec2 Agent::GetPosition() const
 {
 	return m_Position;
 }
 
-void Agent::SetVelocity(Vector2 velocity)
+void Agent::SetVelocity(glm::vec2 velocity)
 {
 	m_Velocity = velocity;
 }
 
-Vector2 Agent::GetVelocity()
+glm::vec2 Agent::GetVelocity()
 {
 	return m_Velocity;
 }
@@ -91,9 +61,9 @@ Vector2 Agent::GetVelocity()
 
 
 
-void Agent::AddForce(Vector2 force, float deltaTime)
+void Agent::AddForce(glm::vec2 force, float deltaTime)
 {
-	if (m_Velocity.magnitude() < m_MaxVelocity)
+	if (glm::length(m_Velocity) < m_MaxVelocity)
 	{
 		m_Velocity += force * deltaTime;
 	}
@@ -114,9 +84,9 @@ void Agent::SetRotation(float num)
 	m_Rotation = num;
 }
 
-Vector2 Agent::CurrentTile()
+glm::vec2 Agent::CurrentTile()
 {
-	return Vector2(m_CurrentX, m_CurrentY);
+	return glm::vec2(m_CurrentX, m_CurrentY);
 }
 
 void Agent::SetCurrentTile(int x, int y)

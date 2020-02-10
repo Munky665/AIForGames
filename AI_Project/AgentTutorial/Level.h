@@ -7,16 +7,18 @@ class Level
 {
 private:
 	//2d array of tile pointers
-	Tile* map[36][36];
+	std::vector<Tile*> map;
 
 	int w, h;
+
+	int tileSize = 64;
 
 public:
 	Level();
 	Level(int w, int h);
 	~Level();
 
-	Tile* GetTile(int x, int y);
+	Tile* GetTile(int x);
 	void LoadLevel();
 	int GetWidth();
 	int GetHeight();

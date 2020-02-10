@@ -8,7 +8,7 @@ Tile::Tile(int texture, float x, float y)
 	m_tile = GetTexture(texture);
 	PosX = x;
 	PosY = y;
-	position = Vector2(x, y);
+	position = glm::vec2(x, y);
 	collider = new Rect(position.x, position.y, 64, 64);
 }
 
@@ -20,7 +20,7 @@ Tile::Tile(aie::Texture* tile)
 void Tile::Draw(aie::Renderer2D * renderer)
 {
 	if (m_tile != nullptr) {
-		renderer->drawSprite(m_tile, position.x, position.y);
+		renderer->drawSprite(m_tile, position.x, position.y, 64,64);
 	}
 }
 
@@ -91,12 +91,12 @@ int Tile::GetId()
 	return this->id;
 }
 
-Vector2 Tile::GetPosition()
+glm::vec2 Tile::GetPosition()
 {
 	if (this != nullptr)
 		return position;
 	else
-		return Vector2(0, 0);
+		return glm::vec2(0, 0);
 }
 
 void Tile::SetPosition(float x, float y)

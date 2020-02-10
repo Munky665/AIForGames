@@ -7,7 +7,7 @@ IdleState::IdleState()
 
 void IdleState::Init(Agent * a)
 {
-	a->SetVelocity(Vector2());
+	a->SetVelocity(glm::vec2());
 }
 
 IdleState::~IdleState()
@@ -28,8 +28,8 @@ AttackState::~AttackState()
 
 void AttackState::Update(Agent * a, float deltaTime)
 {
-	a->SetVelocity(Vector2());
-	Vector2 v = v.normalise(m_target->GetPosition() - a->GetPosition()) * m_speed;
+	a->SetVelocity(glm::vec2());
+	glm::vec2 v = glm::normalize(m_target->GetPosition() - a->GetPosition()) * m_speed;
 	a->SetVelocity(v);
 }
 
@@ -39,10 +39,10 @@ WithinRange::WithinRange(const Agent* t, float range) : target{ t }, somevalue{ 
 }
 
 bool WithinRange::Test(Agent* a) const {
-	Vector2 vec1 = a->GetPosition();
-	Vector2 vec2 = target->GetPosition();
-	Vector2 dist(0, 0);
-	if (dist.distance(vec1, vec2) <= somevalue)
+	glm::vec2 vec1 = a->GetPosition();
+	glm::vec2 vec2 = target->GetPosition();
+	glm::vec2 dist(0, 0);
+	if (glm::distance(vec1, vec2) <= somevalue)
 		return true;
 	else
 		return false;

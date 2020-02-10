@@ -11,24 +11,24 @@ SeekBehaviour::~SeekBehaviour()
 {
 }
 
-Vector2 SeekBehaviour::Update(Agent * agent, float deltaTime)
+glm::vec2 SeekBehaviour::Update(Agent * agent, float deltaTime)
 {
 	if (m_target == nullptr)
 	{
-		return Vector2(0, 0);
+		return glm::vec2(0, 0);
 	}
 	else
 	{
 		//get this agents position
-		Vector2 t_agent = agent->GetPosition();
+		glm::vec2 t_agent = agent->GetPosition();
 		//get targets position
-		Vector2 t_target = m_target->GetPosition();
+		glm::vec2 t_target = m_target->GetPosition();
 		//create force vector
-		Vector2 force(0, 0);
+		glm::vec2 force(0, 0);
 		//create direction vector
-		Vector2 direction = t_target - t_agent;
+		glm::vec2 direction = t_target - t_agent;
 		//normalise the direction vector
-		direction.normalise();
+		glm::normalize(direction);
 		//multiply direction by speed
 		direction *= m_speed;
 		//add direction - velocity to force

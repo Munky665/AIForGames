@@ -12,6 +12,7 @@ Level::Level(int w, int h)
 {
 	this->w = w;
 	this->h = h;
+	map.resize(w*h);
 }
 
 
@@ -26,24 +27,22 @@ int Level::GetHeight()
 
 void Level::DrawFloor(aie::Renderer2D * renderer)
 {
-	for (int x = 0; x < w; x++)
+	for (Tile* t : map)
 	{
-		for (int y = 0; y < h; y++) {
-			if (map[x][y]->GetId() != 4 || map[x][y]->GetId() != 5)
-					map[x][y]->Draw(renderer);
-		}
+		if (t->GetId() != 4 || t->GetId() != 5)
+			t->Draw(renderer);
+
 	}
 }
 
 void Level::DrawDoors(aie::Renderer2D * renderer)
 {
-	for (int x = 0; x < w; x++)
+	for (Tile* t : map)
 	{
-		for (int y = 0; y < h; y++) {
-			if (map[x][y]->GetId() == 4 || map[x][y]->GetId() == 5)
-				map[x][y]->Draw(renderer);
-				//renderer->drawSprite(map[x][y]->GetTexture(), map[x][y]->GetPosition().x, map[x][y]->GetPosition().y, 64, 64);
-		}
+		if (t->GetId() == 4 || t->GetId() == 5)
+			t->Draw(renderer);
+		//renderer->drawSprite(map[x][y]->GetTexture(), map[x][y]->GetPosition().x, map[x][y]->GetPosition().y, tileSize, tileSize);
+
 	}
 }
 
@@ -52,9 +51,9 @@ int Level::GetWidth()
 	return w;
 }
 
-Tile* Level::GetTile(int x, int y)
+Tile* Level::GetTile(int x)
 {
-	return map[x][y];
+	return map[x];
 }
 
 void Level::LoadLevel()
@@ -91,14 +90,15 @@ void Level::LoadLevel()
 		fileIn.close();
 	}
 
-
+	int i = 0;
 	for (x = 0; x < w; x++)
 	{
 		for (y = 0; y < h; y++)
 		{
-			Tile* temp = new Tile(id[x][y], (x * 64), (y * 64));
-			temp->SetPosition(x * 64, y * 64);
-			map[x][y] = temp;
+			Tile* temp = new Tile(id[x][y], (i * tileSize), (i * tileSize));
+			temp->SetPosition(x * tileSize , y * tileSize);
+			map[i] = temp;
+			i++;
 		}
 	}
 

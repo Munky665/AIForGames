@@ -176,6 +176,7 @@
     <ClCompile Include="KeyboardBehaviour.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MouseBehaviour.cpp" />
     <ClCompile Include="Rect.cpp" />
     <ClCompile Include="SeekBehaviour.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="AgentTutorialApp.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="Collider.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="FleeBehaviour.h" />
     <ClInclude Include="FSM.h" />
     <ClInclude Include="FSMCondition.h" />
@@ -195,6 +197,8 @@
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="KeyboardBehaviour.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="MouseBehaviour.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="SeekBehaviour.h" />
