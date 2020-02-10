@@ -11,20 +11,20 @@ FleeBehaviour::~FleeBehaviour()
 {
 }
 
-Vector2 FleeBehaviour::Update(Agent * agent, float deltaTime)
+glm::vec2 FleeBehaviour::Update(Agent * agent, float deltaTime)
 {
 	if (m_target == nullptr)
 	{
-		return Vector2(0, 0);
+		return glm::vec2(0, 0);
 	}
 	else
 	{
-		Vector2 t_agent = agent->GetPosition();
-		Vector2 t_target = m_target->GetPosition();
-		Vector2 force(0, 0);
+		glm::vec2 t_agent = agent->GetPosition();
+		glm::vec2 t_target = m_target->GetPosition();
+		glm::vec2 force(0, 0);
 
-		Vector2 direction = t_agent - t_target;
-		direction.normalise();
+		glm::vec2 direction = t_agent - t_target;
+		glm::normalize(direction);
 		direction *= m_speed;
 		direction =  direction - agent->GetVelocity();
 		return direction;

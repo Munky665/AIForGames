@@ -12,10 +12,10 @@ KeyboardBehaviour::~KeyboardBehaviour()
 {
 }
 
-Vector2 KeyboardBehaviour::Update(Agent * agent, float deltaTime, Level currentMap)
+glm::vec2 KeyboardBehaviour::Update(Agent * agent, float deltaTime, Level currentMap)
 {
 	aie::Input* input = aie::Input::getInstance();
-	Vector2 force(0, 0);
+	glm::vec2 force(0, 0);
 
 	if (input->isKeyDown(aie::INPUT_KEY_UP) || input->isKeyDown(aie::INPUT_KEY_W))
 	{

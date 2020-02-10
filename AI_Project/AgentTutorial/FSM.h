@@ -7,6 +7,7 @@ class State;
 class Transition;
 class Condition;
 class Agent;
+class Node;
 
 	enum ebehaviourResult
 	{
@@ -18,7 +19,7 @@ class Agent;
 	public:
 		FSM();
 		virtual ~FSM();
-		virtual Vector2 Update(Agent* a, float deltaTime, Level currentMap) override;
+		virtual glm::vec2 Update(Agent* a, float deltaTime, std::vector<Node> node) override;
 		virtual ebehaviourResult execute(Agent* gameObject, float deltaTime);
 		State* AddState(State* state);
 		Transition* AddTransition(Transition* transition);

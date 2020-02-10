@@ -1,7 +1,10 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#include <MathLib.h>
+#include <glm/glm.hpp>
+#include <vector>
 #include <cmath>
+
+class Node;
 class Agent;
 class Level;
 class IBehaviour
@@ -9,7 +12,7 @@ class IBehaviour
 public:
 	IBehaviour();
 	//pure virtual function for executing the behaviour
-	virtual Vector2 Update(Agent* ptr, float deltaTime, Level currentMap) = 0;
+	virtual glm::vec2 Update(Agent* ptr, float deltaTime, std::vector<Node> node) = 0;
 	virtual~IBehaviour();
 	
 };

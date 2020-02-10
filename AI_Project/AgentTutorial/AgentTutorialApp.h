@@ -2,15 +2,12 @@
 
 #include "Application.h"
 #include "Agent.h"
-#include "KeyboardBehaviour.h"
-#include "SeekBehaviour.h"
-#include "FleeBehaviour.h"
-#include "WanderBehaviour.h"
+#include "MouseBehaviour.h"
 #include "ImageManager.h"
 #include "Level.h"
 #include "FSM.h"
+#include "FSMState.h"
 
-#include "Graph.h"
 
 class AgentTutorialApp : public aie::Application {
 public:
@@ -24,32 +21,42 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
-	void MakeGrid(int MapX, int MapY);
+	void MakeGrid();
+
+	void ResetGraph(std::vector<Node> node);
 
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
 
-	Agent*				m_player;
-	KeyboardBehaviour*   m_keyboardBehaviour;
+	glm::vec2			m_player;
+	MouseBehaviour*   m_keyboardBehaviour;
 
 	Agent*				m_enemy;
 	FSM*				m_stateMachine;
-
-	Agent*				m_fleeingEnemy;
-	FleeBehaviour*      m_fleeingBehaviour;
-
-	Agent*				m_wanderingEnemy;
-	WanderBehaviour*	m_wander;
 	
 	ImageManager imageManager;
 
 	Level* currentLevel;
 
-	Node nodeList[36][36];
+	std::vector<Node> nodeList;
+
+	int map_x_dim = 36;
+	int map_y_dim = 36;
 
 	float cameraOffsetX;
 	float cameraOffsetY;
 	int	  playerOffset = 300;
+
+	int tileSize = 64;
+	int lastStopped;
+	std::list<const Node*> m_path;
+
+	std::vector<int> MapData;
+
+	std::list<const Node*>::iterator currentNode;
+
+	Node* begin;
+	Node* end;
 };

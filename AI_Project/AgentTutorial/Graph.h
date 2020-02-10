@@ -1,22 +1,24 @@
 
-#include <MathLib.h>
+#include <glm/glm.hpp>
 #include <vector>
 #include <list>
 #include <limits>
 
-struct Edge;
-struct Node;
+class Edge;
+class Node;
 
-struct Node {
-	Vector2 position{ 0,0 };
+class Node {
+public:
+	glm::vec2 position{ 0,0 };
 	float gScore = std::numeric_limits<float>::max();
 	Node* parent = nullptr;
 
 	std::list<Edge> connections;
 };
 
-struct Edge
+class Edge
 {
+public:
 	Node* target;
 	float cost;
 

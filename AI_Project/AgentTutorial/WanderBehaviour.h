@@ -8,14 +8,14 @@ public:
 	WanderBehaviour();
 	~WanderBehaviour();
 
-	virtual Vector2 Update(Agent* agent, float deltaTime, Level current);
-	void SetTarget(Vector2 target);
+	virtual glm::vec2 Update(Agent* agent, float deltaTime, Level current);
+	void SetTarget(glm::vec2 target);
 	void SetSpeed(float speed);
-	void SetAngle(Vector2 displacement, float value);
+	void SetAngle(glm::vec2 displacement, float value);
 
 private:
 	Agent* m_target;
-	Vector2 m_targetPos;
+	glm::vec2 m_targetPos;
 	float m_speed;
 	float wanderAngle;
 };

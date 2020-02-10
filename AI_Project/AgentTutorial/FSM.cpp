@@ -13,10 +13,10 @@ FSM::FSM() : m_current_state(nullptr)
 
 	}
 
-	Vector2 FSM::Update(Agent * a, float deltaTime, Level currentMap)
+	glm::vec2 FSM::Update(Agent * a, float deltaTime, std::vector<Node> node)
 	{
 		execute(a, deltaTime);
-		return Vector2(0, 0);
+		return glm::vec2(0, 0);
 	}
 
 	ebehaviourResult FSM::execute(Agent * gameObject, float deltaTime)

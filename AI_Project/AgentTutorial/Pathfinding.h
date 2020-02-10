@@ -1,88 +1,78 @@
 #pragma once
-#include "Graph.h"
 #include <unordered_set>
 #include <algorithm>
+#include "Node.h"
+#include "Edge.h"
 
-namespace PF
+
+static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 {
 
-
-	class Dijkstra
+	if (!startNode || !endNode)
 	{
-		Dijkstra() {};
-		~Dijkstra() {};
+		throw std::runtime_error("Null nodes passed in!");
 
+	}
+	if (startNode == endNode)
+	{
+		return std::list<const Node*>();
+	}
 
-		std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
+	startNode->gScore = 0;//
+	startNode->parent = nullptr;//
+
+	std::vector<Node*> openList;//
+	std::unordered_set<const Node*> closedList;//
+
+	openList.push_back(startNode);//
+
+	while (!openList.empty())
+	{
+		auto sortNodes = [](const Node* a, const Node* b)
 		{
-			auto currentNode = new Node();
+			return a->gScore < b->gScore;
+		};
+		//
+		std::sort(openList.begin(), openList.end(), sortNodes);
 
-			if (!startNode || !endNode)
+		Node* currentNode = openList.front();
+
+		if (currentNode == endNode)
+			break;
+
+		openList.erase(openList.begin());
+		closedList.insert(currentNode);
+
+		for (auto& c : currentNode->connections)
+		{
+			if (std::find(closedList.begin(), closedList.end(), c.target) == closedList.end())
 			{
-				throw std::runtime_error("Null nodes passed in!");
+				float gScore = currentNode->gScore + c.cost;
 
-			}
-			if (startNode == endNode)
-			{
-				return std::list<const Node*>();
-			}
-
-			startNode->gScore = 0;
-			startNode->parent = nullptr;
-
-			std::vector<Node*> openList;
-			std::unordered_set<const Node*> closedList;
-
-			openList.push_back(startNode);
-			while (!openList.empty())
-			{
-				auto sortNodes = [](const Node* a, const Node* b)
+				if (std::find(openList.begin(), openList.end(), currentNode) == openList.end())
 				{
-					return a->gScore < b->gScore;
-				};
-
-				std::sort(openList.begin(), openList.end(), sortNodes);
-
-				currentNode = openList.front();
-				if (currentNode == endNode)
-					break;
-
-				openList.erase(openList.begin());
-				closedList.insert(currentNode);
-
-				for (auto& c : currentNode->connections)
+					c.target->gScore = gScore;
+					c.target->parent = currentNode;
+					openList.push_back(c.target);
+				}
+				else if (gScore < c.target->gScore)
 				{
-					if (std::find(closedList.begin(), closedList.end(), c.target) == closedList.end())
-					{
-						float gScore = currentNode->gScore + c.cost;
+					c.target->gScore = gScore;
+					c.target->parent = currentNode;
 
-						if (std::find(openList.begin(), openList.end(), currentNode) == openList.end)
-						{
-							c.target->gScore = gScore;
-							c.target->parent = currentNode;
-							openList.push_back(currentNode);
-						}
-						else if (gScore < c.target->gScore)
-						{
-							c.target->gScore = gScore;
-							c.target->parent = currentNode;
-
-						}
-					}
 				}
 			}
-			std::list<const Node*> path;
-			currentNode = endNode;
-			if (!endNode->parent)
-				return path;
-
-			while (currentNode != nullptr)
-			{
-				path.push_front(currentNode);
-				currentNode = currentNode->parent;
-			}
-			return path;
 		}
+	}
+	std::list<const Node*> path;
+	Node* currentNode = endNode;
+	if (!endNode->parent)
+		return path;
 
-	};
+	while (currentNode)
+	{
+		path.push_front(currentNode);
+		currentNode = currentNode->parent;
+	}
+	return path;
 }

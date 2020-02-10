@@ -84,6 +84,9 @@
     <ClCompile Include="FSMTransition.cpp">
       <Filter>Source Files\FSM</Filter>
     </ClCompile>
+    <ClCompile Include="MouseBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AgentTutorialApp.h">
@@ -141,6 +144,15 @@
       <Filter>Header Files\Component</Filter>
     </ClInclude>
     <ClInclude Include="Graph.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
       <Filter>Header Files\Component</Filter>
     </ClInclude>
   </ItemGroup>

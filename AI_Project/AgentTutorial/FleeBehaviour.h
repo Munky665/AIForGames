@@ -7,7 +7,7 @@ public:
 	FleeBehaviour();
 	virtual ~FleeBehaviour();
 
-	virtual Vector2 Update(Agent* agent, float deltaTime);
+	virtual glm::vec2 Update(Agent* agent, float deltaTime);
 	void SetTarget(Agent* agent);
 	void SetSpeed(float speed);
 
