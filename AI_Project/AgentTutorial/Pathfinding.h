@@ -2,8 +2,14 @@
 #include <unordered_set>
 #include <algorithm>
 #include "Node.h"
-#include "Edge.h"
 
+
+static int Heuristic(Node* a, Node* b)
+{
+	int h = (std::sqrt(a->position.x - b->position.x) *(a->position.x - b->position.x))
+		+ (a->position.y - b->position.y) * (a->position.y - b->position.y);
+	return h;
+}
 
 static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 {
@@ -18,21 +24,21 @@ static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 		return std::list<const Node*>();
 	}
 
-	startNode->gScore = 0;//
-	startNode->parent = nullptr;//
+	startNode->gScore = 0;
+	startNode->parent = nullptr;
 
-	std::vector<Node*> openList;//
-	std::unordered_set<const Node*> closedList;//
+	std::vector<Node*> openList;
+	std::unordered_set<const Node*> closedList;
 
-	openList.push_back(startNode);//
+	openList.push_back(startNode);
 
 	while (!openList.empty())
 	{
 		auto sortNodes = [](const Node* a, const Node* b)
 		{
-			return a->gScore < b->gScore;
+			return a->fScore < b->fScore;
 		};
-		//
+
 		std::sort(openList.begin(), openList.end(), sortNodes);
 
 		Node* currentNode = openList.front();
@@ -48,16 +54,21 @@ static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 			if (std::find(closedList.begin(), closedList.end(), c.target) == closedList.end())
 			{
 				float gScore = currentNode->gScore + c.cost;
+				float hScore = Heuristic(c.target, endNode);
+				float fScore = gScore + hScore;
+
 
 				if (std::find(openList.begin(), openList.end(), currentNode) == openList.end())
 				{
 					c.target->gScore = gScore;
+					c.target->fScore = fScore;
 					c.target->parent = currentNode;
 					openList.push_back(c.target);
 				}
-				else if (gScore < c.target->gScore)
+				else if (fScore < c.target->fScore)
 				{
 					c.target->gScore = gScore;
+					c.target->fScore = fScore;
 					c.target->parent = currentNode;
 
 				}

@@ -10,6 +10,12 @@ Tile::Tile(int texture, float x, float y)
 	PosY = y;
 	position = glm::vec2(x, y);
 	collider = new Rect(position.x, position.y, 64, 64);
+
+	if (id == 3 || id == 2)
+	{
+		walkable = false;
+	}
+	else walkable = true;
 }
 
 Tile::Tile(aie::Texture* tile)

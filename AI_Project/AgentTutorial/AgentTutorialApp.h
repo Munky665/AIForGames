@@ -8,7 +8,6 @@
 #include "FSM.h"
 #include "FSMState.h"
 
-
 class AgentTutorialApp : public aie::Application {
 public:
 
@@ -44,6 +43,9 @@ protected:
 
 	int map_x_dim = 36;
 	int map_y_dim = 36;
+
+	float cameraX;
+	float cameraY;
 
 	float cameraOffsetX;
 	float cameraOffsetY;

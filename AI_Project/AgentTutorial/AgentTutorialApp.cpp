@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Input.h"
 #include "Tile.h"
+
 #include "Pathfinding.h"
 #include <iostream>
 
@@ -102,8 +103,8 @@ void AgentTutorialApp::update(float deltaTime) {
 
 	if (input->wasMouseButtonPressed(0))
 	{
-		int x = input->getMouseX() / tileSize;
-		int y = input->getMouseY() / tileSize;
+		int x = (input->getMouseX() + cameraX) / tileSize;
+		int y = (input->getMouseY() + cameraY) / tileSize;
 
 		ResetGraph(nodeList);
 
@@ -152,8 +153,8 @@ void AgentTutorialApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 	//get player position and move camera
-
-	//m_2dRenderer->setCameraPos(m_player.y - cameraOffsetY, m_player.x - cameraOffsetX ); //Initilize if map is implemented
+	m_2dRenderer->getCameraPos(cameraX, cameraY);
+	m_2dRenderer->setCameraPos(m_player.y - cameraOffsetY, m_player.x - cameraOffsetX ); //Initilize if map is implemented
 	m_2dRenderer->setRenderColour(1, 1, 1, 1);
 	currentLevel->DrawFloor(m_2dRenderer);
 	// draw your stuff here!
