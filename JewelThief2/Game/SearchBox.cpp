@@ -24,7 +24,9 @@ void SearchBox::Update(Player* p)
 	}
 	else
 		m_position += m_velocity;
-
+	
+	m_collider->x = m_position.x;
+	m_collider->y = m_position.y;
 }
 
 glm::vec2 SearchBox::GetPosition()

@@ -11,21 +11,10 @@ class SeekBehaviour;
 class SearchBox;
 class Player;
 
-enum RoomId
-{
-	ROOMONE,
-	ROOMTWO,
-	ROOMTHREE,
-	ROOMFOUR,
-	ROOMFIVE,
-	ROOMSIX,
-	ROOMSEVEN
-};
-
 class Agent
 {
 public:
-	Agent(RoomId id, MapLoader* map, Player* p);
+	Agent(int room, MapLoader* map, Player* p);
 	~Agent();
 	void Update(float dT, MapLoader* map);
 	void Draw(aie::Renderer2D* r);
@@ -67,7 +56,7 @@ private:
 
 	bool m_pathEnd = false;
 
-	int m_roomNumber = 0;
+	int m_roomNumber;
 	float m_searchTimer;
 
 	std::vector<SearchBox*> m_searchBoxes;

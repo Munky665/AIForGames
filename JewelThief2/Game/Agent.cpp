@@ -9,9 +9,9 @@
 #include "SearchBox.h"
 #include "Player.h"
 
-Agent::Agent(RoomId id, MapLoader* map, Player* p)
+Agent::Agent(int room, MapLoader* map, Player* p)
 {
-	m_roomNumber = id;
+	m_roomNumber = room;
 	SetSprite();
 	SetPosition(glm::vec2(500, 200));
 	for (int i = 0; i < 4; ++i)

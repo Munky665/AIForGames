@@ -51,7 +51,7 @@ bool UseSearch::Test(Agent * a) const
 	{
 		return true; //node a
 	}
-	else if (count != a->GetSearchBoxes().size())
+	else if (count >= 1)
 	{
 		return false; //node b
 	}

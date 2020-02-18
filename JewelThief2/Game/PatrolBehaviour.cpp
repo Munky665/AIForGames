@@ -8,8 +8,8 @@
 
 PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 {
-		m_begin = map->GetCurrentRoom()->GetNodeMap()[150];
-		m_end = map->GetCurrentRoom()->GetNodeMap()[0];
+		m_begin = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[150];
+		m_end = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[0];
 
 		m_path.push_back(m_begin);
 		m_currentNode = m_path.begin();
@@ -17,18 +17,18 @@ PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 		lastStopped = (*m_currentNode)->id;
 
 		//14 right bottom
-		//23 right top
+		//23 right tops
 		//125 mid  top
 		//115 mid  bottom
 		//239 left top 
 		//229 left bottom
 
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[13]);
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[22]);
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[125]);
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[115]);
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[238]);
-		patrolPoints.push_back(map->GetCurrentRoom()->GetNodeMap()[229]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[13]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[22]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[125]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[115]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[238]);
+		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[229]);
 }
 
 
@@ -57,7 +57,7 @@ void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 
 	if (m_currentNode == m_path.end())
 	{
-
+		
 		m_begin = map->GetCurrentRoom()->GetNodeMap()[lastStopped];
 		m_end = patrolPoints[target];
 
@@ -76,7 +76,7 @@ const Node& PatrolBehaviour::GetCurrentNode()
 void PatrolBehaviour::SetNext()
 {
 	target++;
-	if (target > patrolPoints.size() - 1)
+	if (target > 5)
 	{
 		target = 0;
 	}

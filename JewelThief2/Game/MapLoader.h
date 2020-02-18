@@ -16,6 +16,8 @@ public:
 	//getter
 	Room* GetCurrentRoom();
 
+	Room * GetRoom(int n);
+
 	//setter
 	void ChangeRoom(int roomNumber);
 

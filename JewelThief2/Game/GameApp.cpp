@@ -9,7 +9,7 @@
 #include "Agent.h"
 
 GameApp::GameApp() {
-
+	
 }
 
 GameApp::~GameApp() {
@@ -26,7 +26,8 @@ bool GameApp::startup() {
 	b_Keyboard = new KeybaordBehaviour();
 	m_player->AddBehaviour(b_Keyboard);
 
-	m_enemy = new Agent(RoomId::ROOMONE, m_map, m_player);
+	m_enemy = new Agent(0, m_map, m_player);
+	m_enemyR2 = new Agent(1, m_map, m_player);
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
@@ -44,10 +45,23 @@ void GameApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-
+	m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
 
 	m_player->Update(deltaTime, m_map);
-	m_enemy->Update(deltaTime, m_map);
+	
+	//update enemies if in current room
+	switch (m_currentRoom)
+	{
+	case 0:
+		m_enemy->Update(deltaTime, m_map);
+		break;
+	case 1:
+		m_enemyR2->Update(deltaTime, m_map);
+		break;
+	default:
+		break;
+	}
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -66,9 +80,19 @@ void GameApp::draw() {
 	// draw your stuff here!
 	m_map->GetCurrentRoom()->Draw(m_2dRenderer);
 	
-	m_player->Draw(m_2dRenderer);
-	m_enemy->Draw(m_2dRenderer);
 
+	m_player->Draw(m_2dRenderer);
+	switch (m_currentRoom)
+	{
+	case 0:
+		m_enemy->Draw(m_2dRenderer);
+		break;
+	case 1:
+		m_enemyR2->Draw(m_2dRenderer);
+		break;
+	default:
+		break;
+	}
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
 

@@ -27,8 +27,10 @@ protected:
 
 	Player* m_player;
 	IBehaviour* b_Keyboard;
-
+	int m_currentRoom;
+	
 	Agent* m_enemy;
+	Agent* m_enemyR2;
 
 	MapLoader* m_map;
 };

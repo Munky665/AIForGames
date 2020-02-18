@@ -134,6 +134,11 @@ Room* MapLoader::GetCurrentRoom()
 	return m_rooms[m_currentRoom];
 }
 
+Room* MapLoader::GetRoom(int n)
+{
+	return m_rooms[n];
+}
+
 void MapLoader::ChangeRoom(int roomNumber)
 {
 	m_currentRoom = roomNumber;
