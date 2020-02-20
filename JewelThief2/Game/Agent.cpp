@@ -22,21 +22,27 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	m_decisionTree = new DNode();
 	m_patrol = new PatrolBehaviour(this, map);
 	m_search = new SearchBehaviour(m_patrol, p);
+	m_seek = new SeekBehaviour(p, map);
 	//set nodes on tree
 	m_decisionTree->SetNodeA(m_patrol);
 	m_decisionTree->SetNodeB(m_search);
 	
-	m_search->SetNodeA(m_search);
-	m_search->SetNodeB(m_decisionTree);
+	m_search->SetNodeA(m_decisionTree);
+	m_search->SetNodeB(m_seek);
 	
 	m_patrol->SetNodeA(nullptr);
 	m_patrol->SetNodeB(nullptr);
+
+	m_seek->SetNodeA(nullptr);
+	m_seek->SetNodeB(nullptr);
 
 	m_currentNode = &m_patrol->GetCurrentNode();
 	m_target = m_patrol->GetTargetNode();
 	//set  conditions
 	m_decisionTree->SetCondition(new CheckRange(m_target, 1.0f));
+	m_seek->SetCondition(new Chase());
 	m_search->SetCondition(new UseSearch());
+
 
 	m_searchTimer = 0;
 
@@ -52,12 +58,14 @@ void Agent::Update(float dT, MapLoader* map)
 	m_decisionTree->MakeDecision(this, dT, map);
 	
 	SetRotation(dT);
+	
 	for (SearchBox* b : m_searchBoxes)
 	{
 		if(!m_pathEnd)
 			b->SetPosition(m_position);
 			
 	}
+
 	if (m_pathEnd)
 	{
 		m_searchTimer = m_searchTimer + 1 * dT;
@@ -68,6 +76,10 @@ void Agent::Update(float dT, MapLoader* map)
 			m_searchTimer = 0;
 			m_target = m_patrol->GetTargetNode();
 		}
+	}
+	if (m_roomNumber != map->GetCurrentRoom()->GetRoomId())
+	{
+		m_chase = false;
 	}
 }
 
@@ -126,6 +138,16 @@ bool Agent::GetPathEnd()
 	return m_pathEnd;
 }
 
+bool Agent::GetChase()
+{
+	return m_chase;
+}
+
+const Node* Agent::GetCurrentNode()
+{
+	return m_currentNode;
+}
+
 void Agent::SetPosition(glm::vec2 p)
 {
 	m_position = p;
@@ -155,4 +177,9 @@ void Agent::setCurrentNode(std::list<const Node *>::iterator n)
 void Agent::AtPathEnd(bool p)
 {
 	m_pathEnd = p;
+}
+
+void Agent::SetChase(bool c)
+{
+	m_chase = c;
 }

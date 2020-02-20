@@ -30,6 +30,8 @@ public:
 	std::vector<SearchBox*> GetSearchBoxes();
 	int GetSearchTime();
 	bool GetPathEnd();
+	bool GetChase();
+	const Node* GetCurrentNode();
 	//setters
 	void SetPosition(glm::vec2 p);
 	void SetSprite();
@@ -37,7 +39,7 @@ public:
 	void SetVelocity(glm::vec2 v);
 	void setCurrentNode(std::list<const Node *>::iterator n);
 	void AtPathEnd(bool p);
-	
+	void SetChase(bool c);
 
 private:
 	glm::vec2 m_position;
@@ -55,6 +57,7 @@ private:
 	bool  m_triggeredCollider = false;
 
 	bool m_pathEnd = false;
+	bool m_chase = false;
 
 	int m_roomNumber;
 	float m_searchTimer;
@@ -65,5 +68,6 @@ private:
 	const Node* m_currentNode;
 	PatrolBehaviour* m_patrol;
 	SearchBehaviour* m_search;
+	SeekBehaviour* m_seek;
 };
 

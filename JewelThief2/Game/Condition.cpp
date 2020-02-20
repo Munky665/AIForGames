@@ -19,18 +19,22 @@ CheckRange::CheckRange(const Node* t, float range) : target{ t }, somevalue{ ran
 }
 
 bool CheckRange::Test(Agent* a) const {
-	glm::vec2 vec1 = a->GetPosition();
-	glm::vec2 vec2 = a->GetTarget()->position;
-	float dist = glm::distance(vec1, vec2);
-	if (dist <= 2.0f)
-	{
-		a->AtPathEnd(true);
-		return false; //node b
+	if (a->GetChase() == false) {
+		glm::vec2 vec1 = a->GetPosition();
+		glm::vec2 vec2 = a->GetTarget()->position;
+		float dist = glm::distance(vec1, vec2);
+		if (dist <= somevalue)
+		{
+			a->AtPathEnd(true);
+			return false; //search
+		}
+		else
+		{
+			return true; //continue patroling/chasing
+		}
 	}
 	else
-	{
-		return true; //node a
-	}
+		return false;
 }
 
 UseSearch::UseSearch()
@@ -44,16 +48,26 @@ bool UseSearch::Test(Agent * a) const
 	{
 		if (b->HasCollided() == true)
 		{
-			count++;
+			a->SetChase(true);
+			
+			break;
 		}
 	}
 	if (a->GetSearchTime() > 5)
 	{
-		return true; //node a
+		return true; //return to patrol
 	}
-	else if (count >= 1)
+	else if (a->GetChase() == true)
 	{
-		return false; //node b
+		return false; //seek player
 	}
+}
 
+Chase::Chase()
+{
+}
+
+bool Chase::Test(Agent * a) const
+{
+	return a->GetChase();
 }

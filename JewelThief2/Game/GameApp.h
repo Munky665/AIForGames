@@ -26,7 +26,7 @@ protected:
 	aie::Font*			m_font;
 
 	Player* m_player;
-	IBehaviour* b_Keyboard;
+	IBehaviour* b_key;
 	int m_currentRoom;
 	
 	Agent* m_enemy;

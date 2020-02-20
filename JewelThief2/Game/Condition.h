@@ -26,3 +26,9 @@ public:
 	virtual bool Test(Agent* a) const override;
 };
 
+class Chase :public Condition
+{
+public:
+	Chase();
+	virtual bool Test(Agent* a) const override;
+};

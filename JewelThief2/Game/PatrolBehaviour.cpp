@@ -16,19 +16,16 @@ PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 
 		lastStopped = (*m_currentNode)->id;
 
-		//14 right bottom
-		//23 right tops
-		//125 mid  top
-		//115 mid  bottom
-		//239 left top 
-		//229 left bottom
 
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[13]);
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[22]);
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[125]);
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[115]);
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[238]);
-		patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[229]);
+		for (int i = 0; i < m_waypoints; i++)
+		{
+			int randomNumber = 1;
+			while (map->GetRoom(a->GetRoomNumber())->GetTile(randomNumber)->IsWalkable() == false)
+			{
+				randomNumber = (int)rand() % 229 + 14;
+			}
+			patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[randomNumber] );
+		}
 }
 
 
@@ -39,33 +36,33 @@ PatrolBehaviour::~PatrolBehaviour()
 
 void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 {
-
-	if (m_currentNode != m_path.end())
-	{
-		auto moveVec = (*m_currentNode)->position - a->GetPosition();
-		if (glm::length(moveVec) < 1.0f)
+	if (a->GetChase() == false) {
+		if (m_currentNode != m_path.end())
 		{
-			lastStopped = (*m_currentNode)->id;
-			m_currentNode++;
+			auto moveVec = (*m_currentNode)->position - a->GetPosition();
+			if (glm::length(moveVec) < 1.0f)
+			{
+				lastStopped = (*m_currentNode)->id;
+				m_currentNode++;
+			}
+			else
+			{
+				const auto normalVec = glm::normalize(moveVec);
+				a->SetVelocity(normalVec * 100.0f * deltaTime);
+			}
 		}
-		else
+
+		if (m_currentNode == m_path.end())
 		{
-			const auto normalVec = glm::normalize(moveVec);
-			a->SetVelocity(normalVec * 100.0f * deltaTime);
+
+			m_begin = map->GetCurrentRoom()->GetNodeMap()[lastStopped];
+			m_end = patrolPoints[target];
+
+			m_path = DijkstraSearch(m_begin, m_end);
+
+			m_currentNode = m_path.begin();
 		}
 	}
-
-	if (m_currentNode == m_path.end())
-	{
-		
-		m_begin = map->GetCurrentRoom()->GetNodeMap()[lastStopped];
-		m_end = patrolPoints[target];
-
-		m_path = DijkstraSearch(m_begin, m_end);
-
-		m_currentNode = m_path.begin();
-	}
-
 }
 
 const Node& PatrolBehaviour::GetCurrentNode()

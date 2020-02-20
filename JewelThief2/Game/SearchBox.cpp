@@ -54,4 +54,7 @@ void SearchBox::Draw(aie::Renderer2D* r)
 	r->setRenderColour(1, 0, 0, 0.5f);
 	r->drawBox(m_position.x, m_position.y, m_size, m_size);
 	r->setRenderColour(1, 1, 1, 1);
+	
+	//reset collision is here so that it is done after everything else
+	m_collided = false;
 }

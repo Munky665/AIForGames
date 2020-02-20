@@ -17,7 +17,7 @@ SearchBehaviour::~SearchBehaviour()
 
 void SearchBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 {
-	if (m_c->Test(a) == false) {
+	if (a->GetChase() == false) {
 		for (int i = 0; i < 4; ++i)
 		{
 			switch (i)
@@ -44,6 +44,10 @@ void SearchBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 				break;
 			}
 		}
+	}
+	if (m_c->Test(a) == false) 
+	{
+		m_b->MakeDecision(a, deltaTime, map);
 	}
 	else
 		a->AtPathEnd(false);

@@ -3,10 +3,11 @@
 #include "Font.h"
 #include "Input.h"
 #include "Player.h"
-#include "KeybaordBehaviour.h"
 #include "MapLoader.h"
 #include "Room.h"
 #include "Agent.h"
+#include "Node.h"
+#include "KeybaordBehaviour.h"
 
 GameApp::GameApp() {
 	
@@ -22,9 +23,9 @@ bool GameApp::startup() {
 
 	m_map = new MapLoader();
 
-	m_player = new Player(glm::vec2(100, 200), 100, "../bin/Sprites/Player.png");
-	b_Keyboard = new KeybaordBehaviour();
-	m_player->AddBehaviour(b_Keyboard);
+	m_player = new Player(m_map->GetCurrentRoom()->GetNodeMap()[14]->position, 100, "../bin/Sprites/Player.png");
+	b_key = new KeybaordBehaviour();
+	m_player->AddBehaviour(b_key);
 
 	m_enemy = new Agent(0, m_map, m_player);
 	m_enemyR2 = new Agent(1, m_map, m_player);
@@ -56,6 +57,7 @@ void GameApp::update(float deltaTime) {
 		m_enemy->Update(deltaTime, m_map);
 		break;
 	case 1:
+		m_enemy->SetChase(false);
 		m_enemyR2->Update(deltaTime, m_map);
 		break;
 	default:

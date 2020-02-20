@@ -1,14 +1,57 @@
 #pragma once
-#include "IBehaviour.h"
+#include "Decision.h"
+#include <list>
+#include "Node.h"
+#include "DNode.h"
+
+class Player;
+
 class SeekBehaviour :
-	public IBehaviour
+	public DNode
 {
 public:
-	SeekBehaviour();
+	SeekBehaviour(Player* p, MapLoader* map);
 	virtual ~SeekBehaviour();
 
-	// Inherited via IBehaviour
-	virtual void Update(Player * p, float deltaTime, MapLoader * map) override;
-	virtual bool Update(Agent * a, float deltaTime) override;
+	virtual void MakeDecision(Agent * a, float deltaTime, MapLoader* map) override;
+
+	const Node& GetCurrentNode();
+	Node* GetTargetNode();
+
+	int FindTarget(MapLoader * map);
+
+	virtual void SetNodeA(DNode* a) override
+	{
+		m_a = a;
+	}
+
+	virtual void SetNodeB(DNode* b) override
+	{
+		m_b = b;
+	}
+
+	virtual void SetCondition(Condition* c) override
+	{
+		m_c = c;
+	}
+
+private:
+
+	std::list<const Node*>::iterator m_currentNode;
+	std::list<const Node*> m_path;
+
+	int m_lastStopped = 0;
+	int m_target = 0;
+
+	DNode* m_a;
+	DNode* m_b;
+	Condition* m_c;
+
+	Player* m_player;
+
+	Node* m_targetNode;
+
+	Node* m_begin;
+	Node* m_end;
 };
 

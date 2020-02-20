@@ -37,8 +37,10 @@ private:
 	std::list<const Node*> m_path;
 
 	int lastStopped = 0;
-	int target = 5;
+	int target = 0;
 	std::vector<Node*> patrolPoints;
+
+	int m_waypoints = 6;
 
 	DNode* m_a;
 	DNode* m_b;
