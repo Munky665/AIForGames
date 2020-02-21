@@ -20,7 +20,7 @@ GameApp::~GameApp() {
 bool GameApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
-
+	m_2dRenderer->getCameraPos(camX, camY);
 	m_map = new MapLoader();
 
 	m_player = new Player(m_map->GetCurrentRoom()->GetNodeMap()[14]->position, 100, "../bin/Sprites/Player.png");
@@ -46,6 +46,7 @@ void GameApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+	
 	m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
 
 	m_player->Update(deltaTime, m_map);
@@ -79,6 +80,7 @@ void GameApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
+	m_2dRenderer->setCameraPos(camX - 100, camY - 100);
 	// draw your stuff here!
 	m_map->GetCurrentRoom()->Draw(m_2dRenderer);
 	

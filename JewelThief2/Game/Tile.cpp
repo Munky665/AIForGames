@@ -11,7 +11,9 @@ Tile::Tile(int id, int h, int w, glm::vec2 pos)
 	m_width = w;
 	m_position = pos;
 	m_collider = new Rect(m_position.x, m_position.y, h, w);
-	if (id == 3 || id == 2)
+	
+	
+	if (id == 3 || id == 2 || id == 14)
 	{
 		m_walkable = false;
 	}
@@ -68,15 +70,15 @@ void Tile::SetSprite(int id)
 		break;
 	case 11:
 		m_sprite = new aie::Texture("../bin/Sprites/DoorTileE.png");
-		this->m_walkable = false;
 		break;
 	case 12:
 		m_sprite = new aie::Texture("../bin/Sprites/DoorTileS.png");
-		this->m_walkable = false;
 		break;
 	case 13:
 		m_sprite = new aie::Texture("../bin/Sprites/DoorTileW.png");
-		this->m_walkable = false;
+		break;
+	case 14:
+		m_sprite = new aie::Texture("../bin/Sprites/CabnetTile.png");
 		break;
 	}
 }

@@ -32,7 +32,7 @@ void Room::Draw(aie::Renderer2D* r)
 		}
 		else
 		{
-			r->setRenderColour(0, 1, 1, 1);
+			r->setRenderColour(1, 0, 0, 1);
 			r->drawCircle(n->position.x, n->position.y, 5);
 			r->setRenderColour(1, 1, 1, 1);
 		}

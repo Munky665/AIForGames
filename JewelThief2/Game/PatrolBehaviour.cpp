@@ -3,12 +3,12 @@
 #include "Agent.h"
 #include "Room.h"
 #include "Tile.h"
-#include "Pathfinding.cpp"
+#include "Pathfinding.h"
 #include <random>
 
 PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 {
-		m_begin = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[150];
+		m_begin = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[110];
 		m_end = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[0];
 
 		m_path.push_back(m_begin);
@@ -20,6 +20,7 @@ PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 		for (int i = 0; i < m_waypoints; i++)
 		{
 			int randomNumber = 1;
+			//change node number while tile equiv is false
 			while (map->GetRoom(a->GetRoomNumber())->GetTile(randomNumber)->IsWalkable() == false)
 			{
 				randomNumber = (int)rand() % 229 + 14;
@@ -37,6 +38,7 @@ PatrolBehaviour::~PatrolBehaviour()
 void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 {
 	if (a->GetChase() == false) {
+
 		if (m_currentNode != m_path.end())
 		{
 			auto moveVec = (*m_currentNode)->position - a->GetPosition();
@@ -58,16 +60,28 @@ void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 			m_begin = map->GetCurrentRoom()->GetNodeMap()[lastStopped];
 			m_end = patrolPoints[target];
 
-			m_path = DijkstraSearch(m_begin, m_end);
+
+
+			m_path = Pathfinding::AStar(m_begin, m_end);
 
 			m_currentNode = m_path.begin();
+			
+			map->ResetGraph();
 		}
 	}
 }
 
-const Node& PatrolBehaviour::GetCurrentNode()
+Node& PatrolBehaviour::GetCurrentNode()
 {
-	return (**m_currentNode);
+	return **m_currentNode;
+}
+
+void PatrolBehaviour::SetCurrentNode(Node * n)
+{
+	m_begin = n;
+	m_path.clear();
+	m_path.push_back(m_begin);
+	m_currentNode = m_path.begin();
 }
 
 void PatrolBehaviour::SetNext()
@@ -84,3 +98,5 @@ Node * PatrolBehaviour::GetTargetNode()
 {
 	return  patrolPoints[target];
 }
+
+

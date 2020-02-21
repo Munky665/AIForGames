@@ -29,6 +29,9 @@ protected:
 	IBehaviour* b_key;
 	int m_currentRoom;
 	
+	float camX = 0;
+	float camY = 0;
+
 	Agent* m_enemy;
 	Agent* m_enemyR2;
 

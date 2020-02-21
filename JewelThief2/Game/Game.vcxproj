@@ -190,6 +190,7 @@
     <ClInclude Include="GameApp.h" />
     <ClInclude Include="DNode.h" />
     <ClInclude Include="IBehaviour.h" />
+    <ClInclude Include="Pathfinding.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="KeybaordBehaviour.h" />

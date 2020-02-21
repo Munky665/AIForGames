@@ -15,10 +15,12 @@ public:
 
 	virtual void MakeDecision(Agent * a, float deltaTime, MapLoader* map) override;
 
-	const Node& GetCurrentNode();
+	Node& GetCurrentNode();
 	Node* GetTargetNode();
 
 	int FindTarget(MapLoader * map);
+
+	void SetCurrentNode(Node* n);
 
 	virtual void SetNodeA(DNode* a) override
 	{
@@ -37,8 +39,8 @@ public:
 
 private:
 
-	std::list<const Node*>::iterator m_currentNode;
-	std::list<const Node*> m_path;
+	std::list< Node*>::iterator m_currentNode;
+	std::list< Node*> m_path;
 
 	int m_lastStopped = 0;
 	int m_target = 0;
@@ -53,5 +55,6 @@ private:
 
 	Node* m_begin;
 	Node* m_end;
+
 };
 

@@ -11,7 +11,7 @@ Player::Player(glm::vec2 p, float s, const char* sprite)
 	m_position = p;
 	m_speed= s;
 	SetSprite(sprite);
-	m_collider = new Rect(p.x, p.y, 64, 64);
+	m_collider = new Rect(p.x, p.y, 54, 54);
 }
 
 

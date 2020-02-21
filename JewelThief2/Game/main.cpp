@@ -10,7 +10,7 @@ int main() {
 	auto app = new GameApp();
 
 	// initialise and loop
-	app->run("AIE", 1280, 700, false);
+	app->run("Jewel Thief", 1480, 900, false);
 
 	// deallocation
 	delete app;

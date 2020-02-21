@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Collider.cpp"
 #include "Tile.h"
+#include "Node.h"
 
 MapLoader::MapLoader()
 {
@@ -144,3 +145,17 @@ void MapLoader::ChangeRoom(int roomNumber)
 	m_currentRoom = roomNumber;
 }
 
+void MapLoader::ResetGraph()
+{
+	for (int i = 0; i < GetCurrentRoom()->GetMap().size(); ++i)
+	{
+		if (GetCurrentRoom()->GetMap()[i]->IsWalkable() == false)
+		{
+			GetCurrentRoom()->GetNodeMap()[i]->gScore = 100.0f;
+		}
+		else
+		{
+			GetCurrentRoom()->GetNodeMap()[i]->gScore = 1.0f;
+		}
+	}
+}

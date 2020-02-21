@@ -3,9 +3,10 @@
 #include <algorithm>
 #include "Edge.h"
 #include "Node.h"
+#include "Pathfinding.h"
 
 
-static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
+std::list<Node*> Pathfinding::AStar(Node* startNode, Node* endNode)
 {
 
 	if (!startNode || !endNode)
@@ -15,7 +16,7 @@ static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 	}
 	if (startNode == endNode)
 	{
-		return std::list<const Node*>();
+		return std::list< Node*>();
 	}
 
 	startNode->gScore = 0;
@@ -48,23 +49,28 @@ static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 			if (std::find(closedList.begin(), closedList.end(), c.target) == closedList.end())
 			{
 				float gScore = currentNode->gScore + c.cost;
+				float hScore = Heuristic(c.target, endNode);
+				float fScore = gScore + hScore;
+
 
 				if (std::find(openList.begin(), openList.end(), currentNode) == openList.end())
 				{
 					c.target->gScore = gScore;
+					c.target->fScore = fScore;
 					c.target->parent = currentNode;
 					openList.push_back(c.target);
 				}
 				else if (gScore < c.target->gScore)
 				{
 					c.target->gScore = gScore;
-					c.target->parent = currentNode;
+					c.target->fScore = fScore;
+					c.target->parent = currentNode;;
 
 				}
 			}
 		}
 	}
-	std::list<const Node*> path;
+	std::list< Node*> path;
 	Node* currentNode = endNode;
 	if (!endNode->parent)
 		return path;
@@ -75,4 +81,10 @@ static std::list<const Node*> DijkstraSearch(Node* startNode, Node* endNode)
 		currentNode = currentNode->parent;
 	}
 	return path;
+}
+float Pathfinding::Heuristic(Node* a, Node* b)
+{
+	auto d = b->position - a->position;
+	return abs(d.x) + abs(d.y);
+
 }

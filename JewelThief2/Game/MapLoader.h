@@ -21,6 +21,8 @@ public:
 	//setter
 	void ChangeRoom(int roomNumber);
 
+	void ResetGraph();
+
 private:
 	std::vector<Room*> m_rooms;
 

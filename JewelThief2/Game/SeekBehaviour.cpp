@@ -6,7 +6,7 @@
 #include "Collider.cpp"
 #include "Tile.h"
 #include "Agent.h"
-#include "Pathfinding.cpp"
+#include "Pathfinding.h"
 
 SeekBehaviour::SeekBehaviour(Player* p, MapLoader* map)
 {
@@ -26,15 +26,9 @@ SeekBehaviour::~SeekBehaviour()
 
 void SeekBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 {
-	if (a->GetChase() == false)
-	{
-		m_lastStopped = a->GetCurrentNode()->id;
-		m_begin = map->GetCurrentRoom()->GetNodeMap()[m_lastStopped];
-		m_currentNode = m_path.begin();
-	}
 	if (m_c->Test(a))
 	{
-
+		m_target = FindTarget(map);
 		if (m_currentNode != m_path.end())
 		{
 			auto moveVec = (*m_currentNode)->position - a->GetPosition();
@@ -56,15 +50,17 @@ void SeekBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 			m_begin = map->GetCurrentRoom()->GetNodeMap()[m_lastStopped];
 			m_end = map->GetCurrentRoom()->GetNodeMap()[m_target];
 
-			m_path = DijkstraSearch(m_begin, m_end);
-
+			m_path = Pathfinding::AStar(m_begin, m_end);
+			
 			m_currentNode = m_path.begin();
+			
+			map->ResetGraph();
 		}
-		m_target = FindTarget(map);
+
 	}
 }
 
-const Node& SeekBehaviour::GetCurrentNode()
+Node& SeekBehaviour::GetCurrentNode()
 {
 	return **m_currentNode;
 }
@@ -89,3 +85,12 @@ int SeekBehaviour::FindTarget(MapLoader* map)
 		x++;
 	}
 }
+
+void SeekBehaviour::SetCurrentNode(Node * n)
+{
+	m_path.clear();
+	m_begin = n;
+	m_path.push_back(m_begin);
+	m_currentNode = m_path.begin();
+}
+

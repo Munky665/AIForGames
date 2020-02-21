@@ -13,10 +13,10 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 {
 	m_roomNumber = room;
 	SetSprite();
-	SetPosition(glm::vec2(500, 200));
+	SetPosition(map->GetRoom(m_roomNumber)->GetNodeMap()[110]->position);
 	for (int i = 0; i < 4; ++i)
 	{
-		m_searchBoxes.push_back(new SearchBox(m_position, 32.0f));
+		m_searchBoxes.push_back(new SearchBox(m_position, 48.0f));
 	}
 	//create nodes on tree
 	m_decisionTree = new DNode();
@@ -36,7 +36,7 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	m_seek->SetNodeA(nullptr);
 	m_seek->SetNodeB(nullptr);
 
-	m_currentNode = &m_patrol->GetCurrentNode();
+	//m_currentNode = m_patrol->GetCurrentNode();
 	m_target = m_patrol->GetTargetNode();
 	//set  conditions
 	m_decisionTree->SetCondition(new CheckRange(m_target, 1.0f));
@@ -63,7 +63,10 @@ void Agent::Update(float dT, MapLoader* map)
 	{
 		if(!m_pathEnd)
 			b->SetPosition(m_position);
-			
+		if (m_chase)
+		{
+			b->SetPosition(m_position);
+		}
 	}
 
 	if (m_pathEnd)
@@ -77,10 +80,15 @@ void Agent::Update(float dT, MapLoader* map)
 			m_target = m_patrol->GetTargetNode();
 		}
 	}
-	if (m_roomNumber != map->GetCurrentRoom()->GetRoomId())
+	if (m_chase == true)
 	{
-		m_chase = false;
+		m_patrol->SetCurrentNode(&m_seek->GetCurrentNode());
 	}
+	else if (m_chase == false)
+	{
+		m_seek->SetCurrentNode(&m_patrol->GetCurrentNode());
+	}
+
 }
 
 void Agent::Draw(aie::Renderer2D * r)

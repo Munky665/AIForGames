@@ -46,6 +46,7 @@ void KeybaordBehaviour::Update(Player * p, float dT, MapLoader* map)
 	{
 		force = glm::normalize(glm::vec2(0, 250) )* p->GetSpeed() * dT;
 		ColliderCheck(force, p, map);
+
 		p->SetVelocity(force);
 		p->SetRotation(0);
 	}
@@ -54,6 +55,7 @@ void KeybaordBehaviour::Update(Player * p, float dT, MapLoader* map)
 
 		force = glm::normalize(glm::vec2(0, -250))* p->GetSpeed()* dT;
 		ColliderCheck(force, p, map);
+		
 		p->SetVelocity(force);
 		p->SetRotation(3.2);
 
@@ -62,6 +64,7 @@ void KeybaordBehaviour::Update(Player * p, float dT, MapLoader* map)
 	{
 		force = glm::normalize(glm::vec2(-250, 0))* p->GetSpeed()* dT;
 		ColliderCheck(force, p, map);
+		
 		p->SetVelocity(force);
 		p->SetRotation(1.5);
 	}
@@ -69,6 +72,7 @@ void KeybaordBehaviour::Update(Player * p, float dT, MapLoader* map)
 	{
 		force = glm::normalize(glm::vec2(250, 0)) * p->GetSpeed() * dT;
 		ColliderCheck(force, p, map);
+		
 		p->SetVelocity(force);
 		p->SetRotation(4.7);
 	}
