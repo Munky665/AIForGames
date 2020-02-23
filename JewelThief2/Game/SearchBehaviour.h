@@ -11,7 +11,7 @@ class SearchBehaviour :
 	DNode* m_b;
 	Condition* m_c;
 public:
-	SearchBehaviour(DNode* patrol, Player* p);
+	SearchBehaviour( Player* p);
 	virtual ~SearchBehaviour();
 
 	virtual void MakeDecision(Agent * a, float deltaTime, MapLoader* map) override;

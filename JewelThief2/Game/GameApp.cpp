@@ -46,24 +46,15 @@ void GameApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	
+
 	m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
 
 	m_player->Update(deltaTime, m_map);
-	
-	//update enemies if in current room
-	switch (m_currentRoom)
-	{
-	case 0:
-		m_enemy->Update(deltaTime, m_map);
-		break;
-	case 1:
-		m_enemy->SetChase(false);
-		m_enemyR2->Update(deltaTime, m_map);
-		break;
-	default:
-		break;
-	}
+
+	m_enemy->Update(deltaTime, m_map, m_player);
+
+	m_enemyR2->Update(deltaTime, m_map, m_player);
+
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))

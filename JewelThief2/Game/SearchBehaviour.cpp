@@ -4,9 +4,8 @@
 #include "Player.h"
 
 
-SearchBehaviour::SearchBehaviour(DNode* patrol, Player* p )
+SearchBehaviour::SearchBehaviour( Player* p )
 {
-	m_patrolRef = patrol;
 	m_player = p;
 }
 
@@ -17,6 +16,7 @@ SearchBehaviour::~SearchBehaviour()
 
 void SearchBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 {
+	//move search boxes up/down/left/right
 	if (a->GetChase() == false) {
 		for (int i = 0; i < 4; ++i)
 		{
@@ -24,23 +24,20 @@ void SearchBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 			{
 				//move box right
 			case 0:
-				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(1.0f, 0) * 100.0f * deltaTime);
-				a->GetSearchBoxes()[i]->Update(m_player);
+				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(1.0f, 0) * 100.0f * deltaTime, m_player);
 				break;
 				//move box left
 			case 1:
-				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(-1.0f, 0) * 100.0f * deltaTime);
-				a->GetSearchBoxes()[i]->Update(m_player);
+				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(-1.0f, 0) * 100.0f * deltaTime, m_player);
+
 				break;
 				//move box up
 			case 2:
-				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(0, 1.0f) * 100.0f * deltaTime);
-				a->GetSearchBoxes()[i]->Update(m_player);
+				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(0, 1.0f) * 100.0f * deltaTime, m_player);
 				break;
 				//move box right
 			case 3:
-				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(0, -1.0f) * 100.0f * deltaTime);
-				a->GetSearchBoxes()[i]->Update(m_player);
+				a->GetSearchBoxes()[i]->SetVeloity(glm::vec2(0, -1.0f) * 100.0f * deltaTime, m_player);
 				break;
 			}
 		}
@@ -49,6 +46,5 @@ void SearchBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 	{
 		m_b->MakeDecision(a, deltaTime, map);
 	}
-	else
-		a->AtPathEnd(false);
+
 }

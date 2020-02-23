@@ -151,7 +151,7 @@ void MapLoader::ResetGraph()
 	{
 		if (GetCurrentRoom()->GetMap()[i]->IsWalkable() == false)
 		{
-			GetCurrentRoom()->GetNodeMap()[i]->gScore = 100.0f;
+			GetCurrentRoom()->GetNodeMap()[i]->gScore = 1000.0f;
 		}
 		else
 		{

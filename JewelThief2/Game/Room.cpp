@@ -24,19 +24,19 @@ void Room::Draw(aie::Renderer2D* r)
 	{
 		t->Draw(r);
 	}
-	//draw nodes for testing
-	for (Node* n : m_nodeMap)
-	{
-		if (n->gScore < 100) {
-			r->drawCircle(n->position.x, n->position.y, 5);
-		}
-		else
-		{
-			r->setRenderColour(1, 0, 0, 1);
-			r->drawCircle(n->position.x, n->position.y, 5);
-			r->setRenderColour(1, 1, 1, 1);
-		}
-	}
+	////draw nodes for testing
+	//for (Node* n : m_nodeMap)
+	//{
+	//	if (n->gScore < 100) {
+	//		r->drawCircle(n->position.x, n->position.y, 5);
+	//	}
+	//	else
+	//	{
+	//		r->setRenderColour(1, 0, 0, 1);
+	//		r->drawCircle(n->position.x, n->position.y, 5);
+	//		r->setRenderColour(1, 1, 1, 1);
+	//	}
+	//}
 }
 
 void Room::LoadFileName()

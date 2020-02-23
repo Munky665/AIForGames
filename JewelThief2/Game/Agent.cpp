@@ -19,19 +19,19 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 		m_searchBoxes.push_back(new SearchBox(m_position, 48.0f));
 	}
 	//create nodes on tree
-	m_decisionTree = new DNode();
+	/*m_decisionTree = new DNode();*/
 	m_patrol = new PatrolBehaviour(this, map);
-	m_search = new SearchBehaviour(m_patrol, p);
+	m_search = new SearchBehaviour(p);
 	m_seek = new SeekBehaviour(p, map);
 	//set nodes on tree
-	m_decisionTree->SetNodeA(m_patrol);
-	m_decisionTree->SetNodeB(m_search);
+	//m_decisionTree->SetNodeA(m_patrol);
+	//m_decisionTree->SetNodeB(m_search);
 	
-	m_search->SetNodeA(m_decisionTree);
+	m_search->SetNodeA(nullptr);
 	m_search->SetNodeB(m_seek);
 	
-	m_patrol->SetNodeA(nullptr);
-	m_patrol->SetNodeB(nullptr);
+	m_patrol->SetNodeA(m_seek); //true
+	m_patrol->SetNodeB(m_search); //false
 
 	m_seek->SetNodeA(nullptr);
 	m_seek->SetNodeB(nullptr);
@@ -39,7 +39,7 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	//m_currentNode = m_patrol->GetCurrentNode();
 	m_target = m_patrol->GetTargetNode();
 	//set  conditions
-	m_decisionTree->SetCondition(new CheckRange(m_target, 1.0f));
+	m_patrol->SetCondition(new CheckRange(m_target, 1.0f));
 	m_seek->SetCondition(new Chase());
 	m_search->SetCondition(new UseSearch());
 
@@ -52,43 +52,48 @@ Agent::~Agent()
 {
 }
 
-void Agent::Update(float dT, MapLoader* map)
+void Agent::Update(float dT, MapLoader* map, Player* p)
 {
+	if (map->GetCurrentRoom()->GetRoomId() == m_roomNumber) {
+		m_patrol->MakeDecision(this, dT, map);
 
-	m_decisionTree->MakeDecision(this, dT, map);
-	
-	SetRotation(dT);
-	
-	for (SearchBox* b : m_searchBoxes)
-	{
-		if(!m_pathEnd)
-			b->SetPosition(m_position);
-		if (m_chase)
+		SetRotation(dT);
+
+		for (SearchBox* b : m_searchBoxes)
 		{
-			b->SetPosition(m_position);
+			if (m_searchTimer >= 0) {
+				if (!m_pathEnd)
+					b->SetPosition(m_position);
+				if (m_chase)
+				{
+					b->SetPosition(m_position);
+				}
+				b->Update(p);
+			}
+		}
+
+		if (m_pathEnd)
+		{
+			m_searchTimer += 1 * dT;
+			if (m_searchTimer > 4)
+			{
+				m_patrol->SetNext();
+				m_pathEnd = false;
+				m_searchTimer = 0;
+				m_target = m_patrol->GetTargetNode();
+			}
+		}
+		if (m_chase == true)
+		{
+			m_patrol->SetCurrentNode(&m_seek->GetCurrentNode());
+		}
+		else if (m_chase == false)
+		{
+			m_seek->SetCurrentNode(&m_patrol->GetCurrentNode());
 		}
 	}
-
-	if (m_pathEnd)
-	{
-		m_searchTimer = m_searchTimer + 1 * dT;
-		if (m_searchTimer > 4)
-		{
-			m_patrol->SetNext();
-			m_pathEnd = false;
-			m_searchTimer = 0;
-			m_target = m_patrol->GetTargetNode();
-		}
-	}
-	if (m_chase == true)
-	{
-		m_patrol->SetCurrentNode(&m_seek->GetCurrentNode());
-	}
-	else if (m_chase == false)
-	{
-		m_seek->SetCurrentNode(&m_patrol->GetCurrentNode());
-	}
-
+	else
+		m_chase = false;
 }
 
 void Agent::Draw(aie::Renderer2D * r)
@@ -131,12 +136,12 @@ Node * Agent::GetTarget()
 	return m_target;
 }
 
-std::vector<SearchBox*> Agent::GetSearchBoxes()
+std::vector<SearchBox*>& Agent::GetSearchBoxes()
 {
 	return m_searchBoxes;
 }
 
-int Agent::GetSearchTime()
+float Agent::GetSearchTime()
 {
 	return m_searchTimer;
 }

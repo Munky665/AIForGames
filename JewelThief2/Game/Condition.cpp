@@ -43,14 +43,15 @@ UseSearch::UseSearch()
 
 bool UseSearch::Test(Agent * a) const
 {
-	int count = 0;
-	for (SearchBox* b : a->GetSearchBoxes())
-	{
-		if (b->HasCollided() == true)
+	if (a->GetChase() != true) {
+		for (SearchBox* b : a->GetSearchBoxes())
 		{
-			a->SetChase(true);
-			
-			break;
+			if (b->HasCollided() == true)
+			{
+				a->SetChase(true);
+
+				break;
+			}
 		}
 	}
 	if (a->GetSearchTime() > 5)

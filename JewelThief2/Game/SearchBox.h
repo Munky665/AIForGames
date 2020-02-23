@@ -19,13 +19,15 @@ public:
 
 	//setters
 	void SetPosition(glm::vec2 p);
-	void SetVeloity(glm::vec2 p);
+	void SetVeloity(glm::vec2 pos ,Player* p);
 
 	void Draw(aie::Renderer2D* r);
+
+	glm::vec2 m_velocity;
 private:
 	
 	glm::vec2 m_position;
-	glm::vec2 m_velocity;
+
 	float m_size;
 	bool m_collided = false;
 	Rect* m_collider;

@@ -44,9 +44,10 @@ void SearchBox::SetPosition(glm::vec2 p)
 	m_position = p;
 }
 
-void SearchBox::SetVeloity(glm::vec2 p)
+void SearchBox::SetVeloity(glm::vec2 pos, Player* p)
 {
-	m_velocity = p;
+	m_velocity = pos;
+	Update(p);
 }
 
 void SearchBox::Draw(aie::Renderer2D* r)

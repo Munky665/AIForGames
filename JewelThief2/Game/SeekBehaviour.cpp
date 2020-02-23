@@ -51,14 +51,15 @@ void SeekBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 			m_end = map->GetCurrentRoom()->GetNodeMap()[m_target];
 
 			m_path = Pathfinding::AStar(m_begin, m_end);
-			
+
 			m_currentNode = m_path.begin();
-			
+
 			map->ResetGraph();
 		}
 
 	}
 }
+
 
 Node& SeekBehaviour::GetCurrentNode()
 {

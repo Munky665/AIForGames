@@ -16,7 +16,7 @@ class Agent
 public:
 	Agent(int room, MapLoader* map, Player* p);
 	~Agent();
-	void Update(float dT, MapLoader* map);
+	void Update(float dT, MapLoader* map, Player* p);
 	void Draw(aie::Renderer2D* r);
 
 	void colliderUpdate();
@@ -27,8 +27,8 @@ public:
 	int GetRoomNumber();
 	DNode* GetNodeTree();
 	Node* GetTarget();
-	std::vector<SearchBox*> GetSearchBoxes();
-	int GetSearchTime();
+	std::vector<SearchBox*>& GetSearchBoxes();
+	float GetSearchTime();
 	bool GetPathEnd();
 	bool GetChase();
 	const Node* GetCurrentNode();

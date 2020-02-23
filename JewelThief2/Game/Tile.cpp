@@ -13,7 +13,9 @@ Tile::Tile(int id, int h, int w, glm::vec2 pos)
 	m_collider = new Rect(m_position.x, m_position.y, h, w);
 	
 	
-	if (id == 3 || id == 2 || id == 14)
+	if (   id == 3 || id == 2 || id == 14
+		|| id == 4 || id == 5 || id == 6
+		|| id == 7 || id == 8 || id == 9)
 	{
 		m_walkable = false;
 	}

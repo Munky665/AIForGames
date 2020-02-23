@@ -27,6 +27,7 @@ PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 			}
 			patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[randomNumber] );
 		}
+		map->ResetGraph();
 }
 
 
@@ -60,20 +61,33 @@ void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 			m_begin = map->GetCurrentRoom()->GetNodeMap()[lastStopped];
 			m_end = patrolPoints[target];
 
-
-
 			m_path = Pathfinding::AStar(m_begin, m_end);
 
 			m_currentNode = m_path.begin();
-			
+
 			map->ResetGraph();
+
 		}
 	}
+		//check conditions
+		if (m_c->Test(a))
+		{
+			m_a->MakeDecision(a, deltaTime, map);
+		}
+		else if (!m_c->Test(a))
+		{
+			m_b->MakeDecision(a, deltaTime, map);
+
+		}
+	
 }
 
 Node& PatrolBehaviour::GetCurrentNode()
 {
-	return **m_currentNode;
+	if (m_currentNode != m_path.end())
+		return **m_currentNode;
+	else
+		return *m_begin;
 }
 
 void PatrolBehaviour::SetCurrentNode(Node * n)
