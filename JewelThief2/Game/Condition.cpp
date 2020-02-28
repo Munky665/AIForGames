@@ -2,6 +2,7 @@
 #include "Agent.h"
 #include "Node.h"
 #include "SearchBox.h"
+#include "Player.h"
 
 Condition::Condition()
 {
@@ -64,11 +65,17 @@ bool UseSearch::Test(Agent * a) const
 	}
 }
 
-Chase::Chase()
+Chase::Chase(Player* p)
 {
+	m_player = p;
 }
 
 bool Chase::Test(Agent * a) const
 {
+	auto magnitude = m_player->GetPosition() - a->GetPosition();
+	if (glm::length(magnitude) < 10)
+	{
+		a->SetChase(true);
+	}
 	return a->GetChase();
 }

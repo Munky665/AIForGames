@@ -17,6 +17,7 @@ public:
 	Rect* GetCollider();
 	glm::vec2 GetPosition();
 	int GetId();
+	bool IsDoor();
 	//setter
 	void SetPosition(float x, float y);
 private:
@@ -27,7 +28,7 @@ private:
 	float m_id;
 	float m_height;
 	float m_width;
-
+	bool m_door;
 	bool m_walkable;
 };
 

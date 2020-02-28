@@ -1,6 +1,7 @@
 #pragma once
 class Agent;
 class Node;
+class Player;
 
 class Condition {
 public:
@@ -29,6 +30,9 @@ public:
 class Chase :public Condition
 {
 public:
-	Chase();
+	Chase( Player* p);
 	virtual bool Test(Agent* a) const override;
+
+private:
+	Player* m_player;
 };

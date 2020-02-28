@@ -25,7 +25,6 @@ public:
 	glm::vec2 GetPosition();
 	float GetSpeed();
 	int GetRoomNumber();
-	DNode* GetNodeTree();
 	Node* GetTarget();
 	std::vector<SearchBox*>& GetSearchBoxes();
 	float GetSearchTime();
@@ -35,7 +34,6 @@ public:
 	//setters
 	void SetPosition(glm::vec2 p);
 	void SetSprite();
-	void SetRotation(float r);
 	void SetVelocity(glm::vec2 v);
 	void setCurrentNode(std::list<const Node *>::iterator n);
 	void AtPathEnd(bool p);
@@ -45,7 +43,6 @@ private:
 	glm::vec2 m_position;
 	glm::vec2 m_velocity;
 
-	DNode* m_decisionTree;
 	Condition* m_reachedNode;
 	aie::Texture* m_sprite;
 
@@ -53,7 +50,6 @@ private:
 
 	float m_speed;
 	float m_maxSpeed;
-	float m_rotation = 0;
 	bool  m_triggeredCollider = false;
 
 	bool m_pathEnd = false;
@@ -66,6 +62,7 @@ private:
 
     Node* m_target;
 	const Node* m_currentNode;
+
 	PatrolBehaviour* m_patrol;
 	SearchBehaviour* m_search;
 	SeekBehaviour* m_seek;

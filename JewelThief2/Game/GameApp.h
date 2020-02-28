@@ -34,6 +34,8 @@ protected:
 
 	Agent* m_enemy;
 	Agent* m_enemyR2;
+	Agent* m_enemyR31;
+	Agent* m_enemyR32;
 
 	MapLoader* m_map;
 };

@@ -16,16 +16,13 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	SetPosition(map->GetRoom(m_roomNumber)->GetNodeMap()[110]->position);
 	for (int i = 0; i < 4; ++i)
 	{
-		m_searchBoxes.push_back(new SearchBox(m_position, 48.0f));
+		m_searchBoxes.push_back(new SearchBox(m_position, 30.0f));
 	}
 	//create nodes on tree
-	/*m_decisionTree = new DNode();*/
 	m_patrol = new PatrolBehaviour(this, map);
 	m_search = new SearchBehaviour(p);
 	m_seek = new SeekBehaviour(p, map);
 	//set nodes on tree
-	//m_decisionTree->SetNodeA(m_patrol);
-	//m_decisionTree->SetNodeB(m_search);
 	
 	m_search->SetNodeA(nullptr);
 	m_search->SetNodeB(m_seek);
@@ -36,11 +33,10 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	m_seek->SetNodeA(nullptr);
 	m_seek->SetNodeB(nullptr);
 
-	//m_currentNode = m_patrol->GetCurrentNode();
 	m_target = m_patrol->GetTargetNode();
 	//set  conditions
 	m_patrol->SetCondition(new CheckRange(m_target, 1.0f));
-	m_seek->SetCondition(new Chase());
+	m_seek->SetCondition(new Chase(p));
 	m_search->SetCondition(new UseSearch());
 
 
@@ -54,10 +50,14 @@ Agent::~Agent()
 
 void Agent::Update(float dT, MapLoader* map, Player* p)
 {
+	//checks if agent exists in current room
 	if (map->GetCurrentRoom()->GetRoomId() == m_roomNumber) {
+		
+		if (glm::length(p->GetPosition() - m_position) < 100)
+		{
+			m_chase = true;
+		}
 		m_patrol->MakeDecision(this, dT, map);
-
-		SetRotation(dT);
 
 		for (SearchBox* b : m_searchBoxes)
 		{
@@ -68,13 +68,13 @@ void Agent::Update(float dT, MapLoader* map, Player* p)
 				{
 					b->SetPosition(m_position);
 				}
-				b->Update(p);
 			}
 		}
 
 		if (m_pathEnd)
 		{
 			m_searchTimer += 1 * dT;
+			//reset to next node then patrol
 			if (m_searchTimer > 4)
 			{
 				m_patrol->SetNext();
@@ -83,15 +83,18 @@ void Agent::Update(float dT, MapLoader* map, Player* p)
 				m_target = m_patrol->GetTargetNode();
 			}
 		}
+		//if chasing keep patrol current node current
 		if (m_chase == true)
 		{
 			m_patrol->SetCurrentNode(&m_seek->GetCurrentNode());
 		}
+		//if patroling keep chase current node current
 		else if (m_chase == false)
 		{
 			m_seek->SetCurrentNode(&m_patrol->GetCurrentNode());
 		}
 	}
+	//reset chase if this does not exist in current room
 	else
 		m_chase = false;
 }
@@ -102,7 +105,15 @@ void Agent::Draw(aie::Renderer2D * r)
 	{
 		b->Draw(r);
 	}
-	r->drawSprite(m_sprite, m_position.x, m_position.y, 0, 0, m_rotation);
+	if (m_chase != true) {
+		r->drawSprite(m_sprite, m_position.x, m_position.y, 0, 0);
+	}
+	else
+	{
+		r->setRenderColour(1, 0, 0, 1);
+		r->drawSprite(m_sprite, m_position.x, m_position.y, 0, 0);
+		r->setRenderColour(1, 1, 1, 1);
+	}
 }
 
 
@@ -126,10 +137,6 @@ int Agent::GetRoomNumber()
 	return m_roomNumber;
 }
 
-DNode* Agent::GetNodeTree()
-{
-	return m_decisionTree;
-}
 
 Node * Agent::GetTarget()
 {
@@ -171,10 +178,6 @@ void Agent::SetSprite()
 	m_sprite = new aie::Texture("../bin/Sprites/Agent.png");
 }
 
-void Agent::SetRotation(float r)
-{
-	m_rotation += 0.5 * r;
-}
 
 void Agent::SetVelocity(glm::vec2 v)
 {

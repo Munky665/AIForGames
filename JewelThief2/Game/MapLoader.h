@@ -31,7 +31,7 @@ private:
 	int m_currentRoom = 0;
 
 	int m_roomBottomPos = 70;
-	int m_roomTopPos = 620;
+	int m_roomTopPos = 600;
 	int m_roomRightPos = 1180;
 	int m_roomLeftPos = 65;
 

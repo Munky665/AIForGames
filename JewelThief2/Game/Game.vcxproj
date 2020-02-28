@@ -184,6 +184,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="Decision.h" />
     <ClInclude Include="Edge.h" />

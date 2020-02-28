@@ -6,12 +6,12 @@
 
 
 
-Player::Player(glm::vec2 p, float s, const char* sprite)
+Player::Player(glm::vec2 p, float s)
 {
 	m_position = p;
 	m_speed= s;
-	SetSprite(sprite);
-	m_collider = new Rect(p.x, p.y, 54, 54);
+	SetSprite();
+	m_collider = new Rect(p.x, p.y, 24, 54);
 }
 
 
@@ -35,7 +35,7 @@ void Player::Update(float dT, MapLoader* map)
 
 void Player::Draw(aie::Renderer2D * r)
 {
-		r->drawSprite(m_sprite, m_position.x, m_position.y, 0,0,m_rotation);
+		r->drawSprite(m_sprites[m_rotation], m_position.x, m_position.y, 0,0);
 }
 
 void Player::AddBehaviour(IBehaviour * b)
@@ -74,12 +74,10 @@ void Player::SetVelocity(glm::vec2 p)
 	m_position += p;
 }
 
-void Player::SetSprite(const char* sprite)
+void Player::SetSprite()
 {
-	if (sprite != "")
-		m_sprite = new aie::Texture(sprite);
-	else
-		throw std::runtime_error("No Player Sprite Located");
+	m_sprites.push_back(new aie::Texture("../bin/Sprites/Player.png"));
+	m_sprites.push_back(new aie::Texture("../bin/Sprites/PlayerRight.png"));
 }
 
 void Player::SetRotation(float r)

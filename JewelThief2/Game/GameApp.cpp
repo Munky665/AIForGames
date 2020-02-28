@@ -8,6 +8,7 @@
 #include "Agent.h"
 #include "Node.h"
 #include "KeybaordBehaviour.h"
+#include "Rect.h"
 
 GameApp::GameApp() {
 	
@@ -23,12 +24,14 @@ bool GameApp::startup() {
 	m_2dRenderer->getCameraPos(camX, camY);
 	m_map = new MapLoader();
 
-	m_player = new Player(m_map->GetCurrentRoom()->GetNodeMap()[14]->position, 100, "../bin/Sprites/Player.png");
+	m_player = new Player(m_map->GetCurrentRoom()->GetNodeMap()[14]->position, 100);
 	b_key = new KeybaordBehaviour();
 	m_player->AddBehaviour(b_key);
 
 	m_enemy = new Agent(0, m_map, m_player);
 	m_enemyR2 = new Agent(1, m_map, m_player);
+	m_enemyR31 = new Agent(2, m_map, m_player);
+	m_enemyR32 = new Agent(2, m_map, m_player);
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
@@ -48,12 +51,13 @@ void GameApp::update(float deltaTime) {
 	aie::Input* input = aie::Input::getInstance();
 
 	m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
-
 	m_player->Update(deltaTime, m_map);
 
 	m_enemy->Update(deltaTime, m_map, m_player);
 
 	m_enemyR2->Update(deltaTime, m_map, m_player);
+	m_enemyR31->Update(deltaTime, m_map, m_player);
+	m_enemyR32->Update(deltaTime, m_map, m_player);
 
 
 	// exit the application
@@ -77,6 +81,7 @@ void GameApp::draw() {
 	
 
 	m_player->Draw(m_2dRenderer);
+
 	switch (m_currentRoom)
 	{
 	case 0:
@@ -84,6 +89,10 @@ void GameApp::draw() {
 		break;
 	case 1:
 		m_enemyR2->Draw(m_2dRenderer);
+		break;
+	case 2:
+		m_enemyR31->Draw(m_2dRenderer);
+		m_enemyR32->Draw(m_2dRenderer);
 		break;
 	default:
 		break;

@@ -11,16 +11,22 @@ Tile::Tile(int id, int h, int w, glm::vec2 pos)
 	m_width = w;
 	m_position = pos;
 	m_collider = new Rect(m_position.x, m_position.y, h, w);
+	m_door = false;
 	
-	
-	if (   id == 3 || id == 2 || id == 14
-		|| id == 4 || id == 5 || id == 6
-		|| id == 7 || id == 8 || id == 9)
+	if (id == 3 || id == 2 || id == 14
+		|| id == 6
+		|| id == 7 || id == 8 || id == 9
+		|| id == 15 || id == 16)
 	{
 		m_walkable = false;
 	}
-	else m_walkable = true;
+	else 
+		m_walkable = true;
 
+	if (id == 4 || id == 5)
+	{
+		m_door == true;
+	}
 }
 
 
@@ -80,7 +86,13 @@ void Tile::SetSprite(int id)
 		m_sprite = new aie::Texture("../bin/Sprites/DoorTileW.png");
 		break;
 	case 14:
-		m_sprite = new aie::Texture("../bin/Sprites/CabnetTile.png");
+		m_sprite = new aie::Texture("../bin/Sprites/crateblue.png");
+		break;
+	case 15:
+		m_sprite = new aie::Texture("../bin/Sprites/cratered.png");
+		break;
+	case 16:
+		m_sprite = new aie::Texture("../bin/Sprites/StartExitTile.png");
 		break;
 	}
 }
@@ -103,6 +115,11 @@ glm::vec2 Tile::GetPosition()
 int Tile::GetId()
 {
 	return m_id;
+}
+
+bool Tile::IsDoor()
+{
+	return m_door;
 }
 
 void Tile::SetPosition(float x, float y)

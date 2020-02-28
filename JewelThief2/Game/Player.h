@@ -11,7 +11,7 @@ class Player
 {
 public:
 
-	Player(glm::vec2 p, float s, const char* sprite);
+	Player(glm::vec2 p, float s);
 	~Player();
 
 	void Update(float dT, MapLoader* map);
@@ -29,7 +29,7 @@ public:
 	//setters
 	void SetPosition(glm::vec2 p);
 	void SetVelocity(glm::vec2 p);
-	void SetSprite(const char* sprite);
+	void SetSprite();
 	void SetRotation(float r);
 
 
@@ -38,7 +38,7 @@ private:
 	glm::vec2 m_position;
 	glm::vec2 m_windowSize{ 1280.0f, 700.0f };
 	std::vector<IBehaviour*> m_behaviourList;
-	aie::Texture* m_sprite;
+	std::vector<aie::Texture*> m_sprites;
 
 	Rect* m_collider;
 
@@ -46,7 +46,7 @@ private:
 
 	float m_speed;
 	float m_maxSpeed;
-	float m_rotation;
+	float m_rotation = 0;
 	bool  m_triggeredCollider = false;
 	
 };

@@ -27,7 +27,7 @@ public:
 private:
 	
 	glm::vec2 m_position;
-
+	float m_alpha = 0;
 	float m_size;
 	bool m_collided = false;
 	Rect* m_collider;

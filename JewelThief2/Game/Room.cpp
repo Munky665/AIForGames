@@ -24,19 +24,6 @@ void Room::Draw(aie::Renderer2D* r)
 	{
 		t->Draw(r);
 	}
-	////draw nodes for testing
-	//for (Node* n : m_nodeMap)
-	//{
-	//	if (n->gScore < 100) {
-	//		r->drawCircle(n->position.x, n->position.y, 5);
-	//	}
-	//	else
-	//	{
-	//		r->setRenderColour(1, 0, 0, 1);
-	//		r->drawCircle(n->position.x, n->position.y, 5);
-	//		r->setRenderColour(1, 1, 1, 1);
-	//	}
-	//}
 }
 
 void Room::LoadFileName()
@@ -66,7 +53,7 @@ void Room::LoadFileName()
 		break;
 	}
 }
-
+//creates nodes for Ai pathfinding graph
 void Room::CreateNodeMap()
 {
 	for (int i = 0; i < m_room.size(); i++)
@@ -75,14 +62,6 @@ void Room::CreateNodeMap()
 		m_nodeMap[i]->position.x = m_room[i]->GetPosition().x ;
 		m_nodeMap[i]->position.y = m_room[i]->GetPosition().y ;
 		m_nodeMap[i]->id = i;
-		if (m_room[i]->IsWalkable() == false)
-		{
-			m_nodeMap[i]->gScore = 100.0f;
-		}
-		else
-		{
-			m_nodeMap[i]->gScore = 1.0f;
-		}
 	}
 }
 
@@ -96,24 +75,19 @@ void Room::MakeGrid()
 		{
 			if (m_room[i]->IsWalkable() == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - 1], 1.0f });
-			else if (m_room[i]->IsWalkable() == false)
-				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - 1], 1000000.0f });
+
 		}
 		//check if next node can be connected to
 		if ((i + 1) % m_mapY != 0)
 		{
 			if (m_room[i]->IsWalkable() == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + 1], 1.0f });
-			else if (m_room[i]->IsWalkable() == false)
-				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + 1], 1000000.0f });
 		}
 		//check if node above can be connected to
 		if (i / m_mapX != m_mapY - 1)
 		{
 			if (m_room[i]->IsWalkable() == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + m_mapY], 1.0f });
-			else if (m_room[i]->IsWalkable() == false)
-				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + m_mapY], 1000000.0f });
 
 		}
 		//check if node below can be connected to
@@ -121,8 +95,7 @@ void Room::MakeGrid()
 		{
 			if (m_room[i]->IsWalkable() == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - m_mapY], 1.0f });
-			else if (m_room[i]->IsWalkable() == false)
-				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - m_mapY], 1000000.0f });
+			
 
 		}
 	}
