@@ -62,6 +62,7 @@ void Room::CreateNodeMap()
 		m_nodeMap[i]->position.x = m_room[i]->GetPosition().x ;
 		m_nodeMap[i]->position.y = m_room[i]->GetPosition().y ;
 		m_nodeMap[i]->id = i;
+		m_nodeMap[i]->walkable = m_room[i]->IsWalkable();
 	}
 }
 
@@ -73,28 +74,44 @@ void Room::MakeGrid()
 		//check if previous node can be connected to
 		if (i % m_mapX != 0)
 		{
-			if (m_room[i]->IsWalkable() == true)
+			if (m_nodeMap[i]->walkable == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - 1], 1.0f });
+			else if (m_nodeMap[i]->walkable == false)
+			{
+				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - 1], std::numeric_limits<float>::max() });
+			}
 
 		}
 		//check if next node can be connected to
 		if ((i + 1) % m_mapY != 0)
 		{
-			if (m_room[i]->IsWalkable() == true)
+			if (m_nodeMap[i]->walkable == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + 1], 1.0f });
+			else if (m_nodeMap[i]->walkable == false)
+			{
+				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + 1], std::numeric_limits<float>::max() });
+			}
 		}
 		//check if node above can be connected to
 		if (i / m_mapX != m_mapY - 1)
 		{
-			if (m_room[i]->IsWalkable() == true)
+			if (m_nodeMap[i]->walkable == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + m_mapY], 1.0f });
+			else if (m_nodeMap[i]->walkable == false)
+			{
+				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i + m_mapY], std::numeric_limits<float>::max() });
+			}
 
 		}
 		//check if node below can be connected to
 		if (i / m_mapY != 0)
 		{
-			if (m_room[i]->IsWalkable() == true)
+			if (m_nodeMap[i]->walkable == true)
 				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - m_mapY], 1.0f });
+			else if (m_nodeMap[i]->walkable == false)
+			{
+				m_nodeMap[i]->connections.push_back(Edge{ m_nodeMap[i - m_mapY], std::numeric_limits<float>::max() });
+			}
 			
 
 		}

@@ -28,10 +28,19 @@ bool GameApp::startup() {
 	b_key = new KeybaordBehaviour();
 	m_player->AddBehaviour(b_key);
 
-	m_enemy = new Agent(0, m_map, m_player);
-	m_enemyR2 = new Agent(1, m_map, m_player);
-	m_enemyR31 = new Agent(2, m_map, m_player);
-	m_enemyR32 = new Agent(2, m_map, m_player);
+	//setup all agents
+
+	m_agents.push_back(new Agent(0, m_map, m_player));
+	m_agents.push_back(new Agent(1, m_map, m_player));
+	m_agents.push_back(new Agent(2, m_map, m_player));
+	m_agents.push_back(new Agent(2, m_map, m_player));
+	m_agents.push_back(new Agent(3, m_map, m_player));
+	m_agents.push_back(new Agent(3, m_map, m_player));
+	m_agents.push_back(new Agent(4, m_map, m_player));
+	m_agents.push_back(new Agent(4, m_map, m_player));
+	m_agents.push_back(new Agent(5, m_map, m_player));
+	m_agents.push_back(new Agent(5, m_map, m_player));
+
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
@@ -49,22 +58,37 @@ void GameApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+	switch (m_state)
+	{
+	case GAMESTATE:
+		m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
+		m_player->Update(deltaTime, m_map);
 
-	m_currentRoom = m_map->GetCurrentRoom()->GetRoomId();
-	m_player->Update(deltaTime, m_map);
+		//update agents
+		for (Agent* a : m_agents)
+		{
+			a->Update(deltaTime, m_map, m_player);
+			if (a->GetCaptured() == true)
+			{
+				m_state = LOSE;
+			}
+		}
+		break;
+	case WIN:
 
-	m_enemy->Update(deltaTime, m_map, m_player);
+		break;
+	case LOSE:
+		break;
+	default:
+		break;
+	}
 
-	m_enemyR2->Update(deltaTime, m_map, m_player);
-	m_enemyR31->Update(deltaTime, m_map, m_player);
-	m_enemyR32->Update(deltaTime, m_map, m_player);
-
-
+	m_map->LoadNextRoom(m_player);
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
 
-	m_map->LoadNextRoom(m_player);
+
 }
 
 void GameApp::draw() {
@@ -78,25 +102,43 @@ void GameApp::draw() {
 	m_2dRenderer->setCameraPos(camX - 100, camY - 100);
 	// draw your stuff here!
 	m_map->GetCurrentRoom()->Draw(m_2dRenderer);
-	
-
 	m_player->Draw(m_2dRenderer);
 
 	switch (m_currentRoom)
 	{
 	case 0:
-		m_enemy->Draw(m_2dRenderer);
+		m_agents[0]->Draw(m_2dRenderer);
 		break;
 	case 1:
-		m_enemyR2->Draw(m_2dRenderer);
+		m_agents[1]->Draw(m_2dRenderer);
 		break;
 	case 2:
-		m_enemyR31->Draw(m_2dRenderer);
-		m_enemyR32->Draw(m_2dRenderer);
+		m_agents[2]->Draw(m_2dRenderer);
+		m_agents[3]->Draw(m_2dRenderer);
 		break;
-	default:
+	case 3:
+		m_agents[4]->Draw(m_2dRenderer);
+		m_agents[5]->Draw(m_2dRenderer);
+		break;
+	case 4:
+		m_agents[6]->Draw(m_2dRenderer);
+		m_agents[7]->Draw(m_2dRenderer);
+		break;
+	case 5:
+		m_agents[8]->Draw(m_2dRenderer);
+		m_agents[9]->Draw(m_2dRenderer);
 		break;
 	}
+	switch (m_state)
+	{
+	case LOSE:
+		m_2dRenderer->drawText(m_font, "YOU LOSE", (getWindowWidth() - 300) / 2, getWindowHeight() / 2);
+		break;
+	case WIN:
+		m_2dRenderer->drawText(m_font, "YOU WIN", getWindowHeight() / 2, getWindowWidth() / 2);
+		break;
+	}
+	
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);
 

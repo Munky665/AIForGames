@@ -18,6 +18,10 @@ std::list<Node*> Pathfinding::AStar(Node* startNode, Node* endNode)
 	{
 		return std::list< Node*>();
 	}
+	if (startNode->walkable == false)
+	{
+		return std::list<Node*>();
+	}
 
 	startNode->gScore = 0;
 	startNode->parent = nullptr;
@@ -31,7 +35,7 @@ std::list<Node*> Pathfinding::AStar(Node* startNode, Node* endNode)
 	{
 		auto sortNodes = [](const Node* a, const Node* b)
 		{
-			return a->gScore < b->gScore;
+			return a->fScore < b->fScore;
 		};
 
 		std::sort(openList.begin(), openList.end(), sortNodes);
@@ -60,11 +64,11 @@ std::list<Node*> Pathfinding::AStar(Node* startNode, Node* endNode)
 					c.target->parent = currentNode;
 					openList.push_back(c.target);
 				}
-				else if (gScore < c.target->gScore)
+				else if (fScore < c.target->fScore)
 				{
 					c.target->gScore = gScore;
 					c.target->fScore = fScore;
-					c.target->parent = currentNode;;
+					c.target->parent = currentNode;
 
 				}
 			}

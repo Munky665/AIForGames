@@ -16,7 +16,7 @@ SeekBehaviour::SeekBehaviour(Player* p, MapLoader* map)
 
 	m_path.push_back(m_begin);
 	m_currentNode = m_path.begin();
-
+	map->ResetGraph();
 }
 
 
@@ -81,6 +81,11 @@ int SeekBehaviour::FindTarget(MapLoader* map)
 
 		if (CheckCollision(m_player->GetCollider(), n->GetCollider(), glm::vec2(0,0)) == true)
 		{
+			//force return of only walkable nodes
+			while (map->GetCurrentRoom()->GetTile(x)->IsWalkable() == false)
+			{
+				x++;
+			}
 			return map->GetCurrentRoom()->GetNodeMap()[x]->id;
 		}
 		x++;

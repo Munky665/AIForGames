@@ -31,6 +31,8 @@ public:
 	bool GetPathEnd();
 	bool GetChase();
 	const Node* GetCurrentNode();
+	bool GetCaptured();
+
 	//setters
 	void SetPosition(glm::vec2 p);
 	void SetSprite();
@@ -54,6 +56,7 @@ private:
 
 	bool m_pathEnd = false;
 	bool m_chase = false;
+	bool m_captured = false;
 
 	int m_roomNumber;
 	float m_searchTimer;

@@ -8,7 +8,7 @@
 
 PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 {
-		m_begin = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[110];
+		m_begin = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[137];
 		m_end = map->GetRoom(a->GetRoomNumber())->GetNodeMap()[0];
 
 		m_path.push_back(m_begin);
@@ -27,6 +27,7 @@ PatrolBehaviour::PatrolBehaviour(Agent* a, MapLoader* map)
 			}
 			patrolPoints.push_back(map->GetRoom(a->GetRoomNumber())->GetNodeMap()[randomNumber] );
 		}
+
 		map->ResetGraph();
 }
 

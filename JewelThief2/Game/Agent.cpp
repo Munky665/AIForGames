@@ -7,13 +7,14 @@
 #include "MapLoader.h"
 #include "Room.h"
 #include "SearchBox.h"
+#include "Collider.h"
 #include "Player.h"
 
 Agent::Agent(int room, MapLoader* map, Player* p)
 {
 	m_roomNumber = room;
 	SetSprite();
-	SetPosition(map->GetRoom(m_roomNumber)->GetNodeMap()[110]->position);
+	SetPosition(map->GetRoom(m_roomNumber)->GetNodeMap()[137]->position);
 	for (int i = 0; i < 4; ++i)
 	{
 		m_searchBoxes.push_back(new SearchBox(m_position, 30.0f));
@@ -39,7 +40,7 @@ Agent::Agent(int room, MapLoader* map, Player* p)
 	m_seek->SetCondition(new Chase(p));
 	m_search->SetCondition(new UseSearch());
 
-
+	m_collider = new Rect(m_position.x, m_position.y, 50, 50);
 	m_searchTimer = 0;
 
 }
@@ -52,10 +53,14 @@ void Agent::Update(float dT, MapLoader* map, Player* p)
 {
 	//checks if agent exists in current room
 	if (map->GetCurrentRoom()->GetRoomId() == m_roomNumber) {
-		
+
 		if (glm::length(p->GetPosition() - m_position) < 100)
 		{
 			m_chase = true;
+			if (CheckCollision(p->GetCollider(), m_collider, m_velocity))
+			{
+				m_captured = true;
+			}
 		}
 		m_patrol->MakeDecision(this, dT, map);
 
@@ -96,8 +101,12 @@ void Agent::Update(float dT, MapLoader* map, Player* p)
 	}
 	//reset chase if this does not exist in current room
 	else
+	{
 		m_chase = false;
+	}
+	colliderUpdate();
 }
+
 
 void Agent::Draw(aie::Renderer2D * r)
 {
@@ -120,6 +129,8 @@ void Agent::Draw(aie::Renderer2D * r)
 
 void Agent::colliderUpdate()
 {
+	m_collider->x = m_position.x;
+	m_collider->y = m_position.y;
 }
 
 glm::vec2 Agent::GetPosition()
@@ -166,6 +177,11 @@ bool Agent::GetChase()
 const Node* Agent::GetCurrentNode()
 {
 	return m_currentNode;
+}
+
+bool Agent::GetCaptured()
+{
+	return m_captured;
 }
 
 void Agent::SetPosition(glm::vec2 p)

@@ -149,13 +149,8 @@ void MapLoader::ResetGraph()
 {
 	for (int i = 0; i < GetCurrentRoom()->GetMap().size(); ++i)
 	{
-		if (GetCurrentRoom()->GetMap()[i]->IsWalkable() == false)
-		{
-			GetCurrentRoom()->GetNodeMap()[i]->gScore = 1000.0f;
-		}
-		else
-		{
-			GetCurrentRoom()->GetNodeMap()[i]->gScore = 1.0f;
-		}
+
+		GetCurrentRoom()->GetNodeMap()[i]->gScore = std::numeric_limits<float>::max();
+
 	}
 }

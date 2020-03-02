@@ -11,6 +11,7 @@ public:
 	float gScore = std::numeric_limits<float>::max();
 	float hScore = 0;
 	float fScore = 0;
+	bool walkable;
 	Node* parent = nullptr;
 	int id = 0;
 	std::list<Edge> connections;
