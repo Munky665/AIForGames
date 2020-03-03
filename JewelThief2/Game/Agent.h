@@ -60,7 +60,7 @@ private:
 
 	int m_roomNumber;
 	float m_searchTimer;
-
+	int m_currentRoom;
 	std::vector<SearchBox*> m_searchBoxes;
 
     Node* m_target;

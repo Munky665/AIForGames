@@ -33,12 +33,12 @@ Tile::Tile(int id, int h, int w, glm::vec2 pos)
 Tile::~Tile()
 {
 }
-
+//draws sprite
 void Tile::Draw(aie::Renderer2D * r)
 {
 	r->drawSprite(m_sprite, m_position.x, m_position.y);
 }
-
+//set sprite based on id
 void Tile::SetSprite(int id)
 {
 	switch (id)
@@ -94,34 +94,37 @@ void Tile::SetSprite(int id)
 	case 16:
 		m_sprite = new aie::Texture("../bin/Sprites/StartExitTile.png");
 		break;
+	case 17:
+		m_sprite = new aie::Texture("../bin/Sprites/Gem.png");
+		break;
 	}
 }
-
+//returns weather tile is walkable
 bool Tile::IsWalkable()
 {
 	return m_walkable;
 }
-
+//returns collider
 Rect * Tile::GetCollider()
 {
 	return m_collider;
 }
-
+//returns tile position
 glm::vec2 Tile::GetPosition()
 {
 	return m_position;
 }
-
+//returns tile id
 int Tile::GetId()
 {
 	return m_id;
 }
-
+//returns whether tile is a door or not
 bool Tile::IsDoor()
 {
 	return m_door;
 }
-
+//sets the position of the tile
 void Tile::SetPosition(float x, float y)
 {
 	m_position.x = x;

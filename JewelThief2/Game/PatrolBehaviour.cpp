@@ -36,7 +36,7 @@ PatrolBehaviour::~PatrolBehaviour()
 {
 }
 
-
+//follow path then check condition to make new decision 
 void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 {
 	if (a->GetChase() == false) {
@@ -82,7 +82,7 @@ void PatrolBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader* map)
 		}
 	
 }
-
+//return current now if not path end, else return the beging of path list
 Node& PatrolBehaviour::GetCurrentNode()
 {
 	if (m_currentNode != m_path.end())
@@ -90,7 +90,7 @@ Node& PatrolBehaviour::GetCurrentNode()
 	else
 		return *m_begin;
 }
-
+//used to keep current node the same between behaviours
 void PatrolBehaviour::SetCurrentNode(Node * n)
 {
 	m_begin = n;
@@ -98,7 +98,7 @@ void PatrolBehaviour::SetCurrentNode(Node * n)
 	m_path.push_back(m_begin);
 	m_currentNode = m_path.begin();
 }
-
+//sets next target node in list
 void PatrolBehaviour::SetNext()
 {
 	target++;
@@ -108,7 +108,7 @@ void PatrolBehaviour::SetNext()
 	}
 }
 
-
+//returns the current target node
 Node * PatrolBehaviour::GetTargetNode()
 {
 	return  patrolPoints[target];

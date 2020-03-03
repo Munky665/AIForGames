@@ -25,7 +25,7 @@ void Room::Draw(aie::Renderer2D* r)
 		t->Draw(r);
 	}
 }
-
+//load text file based on room id
 void Room::LoadFileName()
 {
 	switch (m_roomId)
@@ -65,7 +65,7 @@ void Room::CreateNodeMap()
 		m_nodeMap[i]->walkable = m_room[i]->IsWalkable();
 	}
 }
-
+//creates the connections for the node map
 void Room::MakeGrid()
 {
 	for (int i = 0; i < m_nodeMap.size(); i++)
@@ -118,7 +118,7 @@ void Room::MakeGrid()
 	}
 
 }
-
+//loads text file containing the tile ids then adds each tile to array
 void Room::LoadMapFile()
 {
 	//open mapfile
@@ -164,22 +164,22 @@ void Room::LoadMapFile()
 		}
 	}
 }
-
+//returns room number
 int Room::GetRoomId()
 {
 	return m_roomId;
 }
-
+//returns tile
 Tile * Room::GetTile(int i)
 {
 	return m_room[i];
 }
-
+//returns tile map
 std::vector<Tile*> Room::GetMap()
 {
 	return m_room;
 }
-
+//returns node map
 std::vector<Node*> Room::GetNodeMap()
 {
 	return m_nodeMap;

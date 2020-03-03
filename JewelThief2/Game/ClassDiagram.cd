@@ -3,14 +3,14 @@
   <Class Name="Agent" Collapsed="true">
     <Position X="7.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAQAAECCABAgAgAAEAQEAgBAEBggkAIAAAABEAAEA=</HashCode>
+      <HashCode>KAQAAAAEACABBgAgAHGAQAEghAEBkwUEoAApAREAAAA=</HashCode>
       <FileName>Agent.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameApp" Collapsed="true">
     <Position X="11.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACAAACgAIAAAAAEBQAIEAAAgAAAAAAACAAAAAAAEAAA=</HashCode>
+      <HashCode>AAIAACgQLgABAAEBQAIEAAAgAAAAAAACAMAAAAEEAAA=</HashCode>
       <FileName>GameApp.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -21,38 +21,45 @@
       <FileName>Player.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="SearchBox" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEADAAAgABAAAEAAACAAAEAgQAAAAAACIAAAA=</HashCode>
+      <FileName>SearchBox.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="IBehaviour" Collapsed="true">
-    <Position X="3" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAA=</HashCode>
       <FileName>IBehaviour.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="KeybaordBehaviour" Collapsed="true">
-    <Position X="0.75" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="8.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAABAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>KeybaordBehaviour.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PatrolBehaviour" Collapsed="true">
-    <Position X="0.5" Y="6.25" Width="1.5" />
+    <Position X="0.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQAEAQAAAABgAAoIAAAAAAAAABAAAQAAAACAAAAAA=</HashCode>
+      <HashCode>AAASAEAQAgAABgBAoIAAAAQAQAAhAAAQIAAACAgAAAA=</HashCode>
       <FileName>PatrolBehaviour.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SearchBehaviour" Collapsed="true">
-    <Position X="3" Y="1.75" Width="1.5" />
+    <Position X="3" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAAAAAAAAAAAAIAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAYAQAAAAgAAIAAACAgAAAA=</HashCode>
       <FileName>SearchBehaviour.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SeekBehaviour" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Position X="5.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAACAAAQQAAABABAAIAEGAQAQAABAQAQIAAACAgAAAA=</HashCode>
       <FileName>SeekBehaviour.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -63,74 +70,95 @@
       <FileName>Edge.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Node" Collapsed="true">
+  <Class Name="Pathfinding" Collapsed="true">
     <Position X="9.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAEBAAAAAIAAAAAABAAAAIgAAAAAAAgA=</HashCode>
+      <HashCode>AAAAAAAAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Pathfinding.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Node" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEBAAAAAIAAAAAABAAAAIgAAAAAIAgA=</HashCode>
       <FileName>Node.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Rect" Collapsed="true">
-    <Position X="7.75" Y="2.5" Width="1.5" />
+    <Position X="13" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAQAQAAAAAAAACCAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Rect.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Room" Collapsed="true">
-    <Position X="9.5" Y="2.5" Width="1.5" />
+    <Position X="7.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>iRAAACAAAAgAAgAAKBAAgAAAAAAAAEAAAAAFACAAACA=</HashCode>
       <FileName>Room.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MapLoader" Collapsed="true">
-    <Position X="7.75" Y="1.5" Width="1.5" />
+    <Position X="13" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAIAEAQEAAAAQEAAAAgAggAAAAAAAAgAAAAAAAgAAA=</HashCode>
+      <HashCode>ABAIAEAREAAAAQEAAAAgAgiAAAAAAAAgAAAAAAAgAAA=</HashCode>
       <FileName>MapLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Tile" Collapsed="true">
     <Position X="11.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEACABAgABAAAAAAAwAgAAAgSAAAAAACIAAQA=</HashCode>
+      <HashCode>AAAAAAAEACABAgABAAAAAAAwAgAAAgSAAQABACIAAQA=</HashCode>
       <FileName>Tile.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Condition" Collapsed="true">
-    <Position X="3.5" Y="3.5" Width="1.5" />
+    <Position X="3" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAQ=</HashCode>
       <FileName>Condition.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CheckRange" Collapsed="true">
-    <Position X="3.5" Y="4.75" Width="1.5" />
+    <Position X="3" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAACACAAAAAA=</HashCode>
       <FileName>Condition.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="UseSearch" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Condition.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chase" Collapsed="true">
+    <Position X="0.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Condition.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Class Name="Decision" Collapsed="true">
-    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Position X="3" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
       <FileName>Decision.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DNode" Collapsed="true">
-    <Position X="0.5" Y="4.75" Width="1.5" />
+    <Position X="3" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAQAAAAAAAIAAACAgAAAA=</HashCode>
       <FileName>DNode.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="RoomId" Collapsed="true">
+  <Enum Name="State" Collapsed="true">
     <Position X="7.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAAAAAAAIAACAABAAAACQAAAAAAAAAAgAAAAAAAAAA=</HashCode>
-      <FileName>Agent.h</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAEAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>GameApp.h</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

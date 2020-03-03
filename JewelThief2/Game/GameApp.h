@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Application.h"
 #include "Renderer2D.h"
 #include <vector>
@@ -38,20 +37,13 @@ protected:
 	Player* m_player;
 	IBehaviour* b_key;
 	int m_currentRoom;
-	
+	int m_firstRoom = 0;
+	int m_lastRoom = 6;
+	int m_exitTile = 16;
+	int m_gemTile = 17;
+
 	float camX = 0;
 	float camY = 0;
-
-	Agent* m_enemy;
-	Agent* m_enemyR2;
-	Agent* m_enemyR31;
-	Agent* m_enemyR32;
-	Agent* m_enemyR41;
-	Agent* m_enemyR42;
-	Agent* m_enemyR51;
-	Agent* m_enemyR52;
-	Agent* m_enemyR61;
-	Agent* m_enemyR62;
 
 	std::vector<Agent*> m_agents;
 

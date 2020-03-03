@@ -64,6 +64,11 @@ Rect * Player::GetCollider()
 	return m_collider;
 }
 
+bool Player::GemCollected()
+{
+	return m_gemCollected;
+}
+
 void Player::SetPosition(glm::vec2 p)
 {
 	m_position = p;
@@ -83,4 +88,9 @@ void Player::SetSprite()
 void Player::SetRotation(float r)
 {
 	m_rotation = r;
+}
+
+void Player::SetGemCollected(bool b)
+{
+	m_gemCollected = b;
 }

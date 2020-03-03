@@ -7,6 +7,7 @@
 
 MapLoader::MapLoader()
 {
+	//push rooms to list based on number of rooms
 	for (int i = 0; i < m_numberOfRooms; ++i)
 	{
 		m_rooms.push_back(new Room(i));
@@ -17,7 +18,7 @@ MapLoader::MapLoader()
 MapLoader::~MapLoader()
 {
 }
-
+//load new room if player collides with doorway
 void MapLoader::LoadNextRoom(Player * p)
 {
 	for (Tile* t : m_rooms[m_currentRoom]->GetMap())
@@ -129,22 +130,22 @@ void MapLoader::LoadNextRoom(Player * p)
 		}
 	}
 }
-
+//returns current room 
 Room* MapLoader::GetCurrentRoom()
 {
 	return m_rooms[m_currentRoom];
 }
-
+//return room by index
 Room* MapLoader::GetRoom(int n)
 {
 	return m_rooms[n];
 }
-
+//change current room
 void MapLoader::ChangeRoom(int roomNumber)
 {
 	m_currentRoom = roomNumber;
 }
-
+//reset the node maps g scores to stop aStar from failing
 void MapLoader::ResetGraph()
 {
 	for (int i = 0; i < GetCurrentRoom()->GetMap().size(); ++i)

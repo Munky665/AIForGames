@@ -9,6 +9,8 @@
 #include "Node.h"
 #include "KeybaordBehaviour.h"
 #include "Rect.h"
+#include "Collider.h"
+#include "Tile.h"
 
 GameApp::GameApp() {
 	
@@ -19,30 +21,30 @@ GameApp::~GameApp() {
 }
 
 bool GameApp::startup() {
-	
+	//setup renderer
 	m_2dRenderer = new aie::Renderer2D();
 	m_2dRenderer->getCameraPos(camX, camY);
+	//setup map
 	m_map = new MapLoader();
-
+	//setup player
 	m_player = new Player(m_map->GetCurrentRoom()->GetNodeMap()[14]->position, 100);
 	b_key = new KeybaordBehaviour();
 	m_player->AddBehaviour(b_key);
 
 	//setup all agents
-
-	m_agents.push_back(new Agent(0, m_map, m_player));
-	m_agents.push_back(new Agent(1, m_map, m_player));
-	m_agents.push_back(new Agent(2, m_map, m_player));
-	m_agents.push_back(new Agent(2, m_map, m_player));
-	m_agents.push_back(new Agent(3, m_map, m_player));
-	m_agents.push_back(new Agent(3, m_map, m_player));
-	m_agents.push_back(new Agent(4, m_map, m_player));
-	m_agents.push_back(new Agent(4, m_map, m_player));
-	m_agents.push_back(new Agent(5, m_map, m_player));
-	m_agents.push_back(new Agent(5, m_map, m_player));
-
-	// TODO: remember to change this when redistributing a build!
-	// the following path would be used instead: "./font/consolas.ttf"
+	for (int i = 0; i < 6; ++i)
+	{
+		if (i <= 1)
+		{
+			m_agents.push_back(new Agent(i, m_map, m_player));
+		}
+		else
+		{
+			m_agents.push_back(new Agent(i, m_map, m_player));
+			m_agents.push_back(new Agent(i, m_map, m_player));
+		}
+	}
+	//set font
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	return true;
@@ -68,16 +70,44 @@ void GameApp::update(float deltaTime) {
 		for (Agent* a : m_agents)
 		{
 			a->Update(deltaTime, m_map, m_player);
+			//if agent collides with player end game
 			if (a->GetCaptured() == true)
 			{
 				m_state = LOSE;
 			}
 		}
-		break;
-	case WIN:
-
-		break;
-	case LOSE:
+		//checks tile in last room for collision if player collides with gem then toggle gemcollected
+		if (m_currentRoom == m_lastRoom)
+		{
+			for (Tile* t : m_map->GetCurrentRoom()->GetMap())
+			{
+				if (t->GetId() == m_gemTile)
+				{
+					if (CheckCollision(m_player->GetCollider(), t->GetCollider()) == 0)
+					{
+						t->SetSprite(1);
+						m_player->SetGemCollected(true);
+					}
+				}
+			}
+		}
+		//checks tiles for exit tile if player is in the first room, and if player collides finish game
+		if (m_currentRoom == m_firstRoom)
+		{
+			if (m_player->GemCollected())
+			{
+				for (Tile* t : m_map->GetCurrentRoom()->GetMap())
+				{
+					if (t->GetId() == m_exitTile)
+					{
+						if (CheckCollision(m_player->GetCollider(), t->GetCollider()) == 0)
+						{
+							m_state = WIN;
+						}
+					}
+				}
+			}
+		}
 		break;
 	default:
 		break;

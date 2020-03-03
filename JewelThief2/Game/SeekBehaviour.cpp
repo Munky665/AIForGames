@@ -23,7 +23,7 @@ SeekBehaviour::SeekBehaviour(Player* p, MapLoader* map)
 SeekBehaviour::~SeekBehaviour()
 {
 }
-
+//checks condition then find and move towards current target
 void SeekBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 {
 	if (m_c->Test(a))
@@ -43,7 +43,7 @@ void SeekBehaviour::MakeDecision(Agent * a, float deltaTime, MapLoader * map)
 				a->SetVelocity(normalVec * 100.0f * deltaTime);
 			}
 		}
-
+		//get new path if m_current is path end
 		if (m_currentNode == m_path.end())
 		{
 
@@ -91,7 +91,7 @@ int SeekBehaviour::FindTarget(MapLoader* map)
 		x++;
 	}
 }
-
+//keeps track of current node from other behaviour
 void SeekBehaviour::SetCurrentNode(Node * n)
 {
 	m_path.clear();

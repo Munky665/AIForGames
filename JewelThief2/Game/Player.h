@@ -24,6 +24,7 @@ public:
 	glm::vec2 GetPosition();
 	float GetSpeed();
 	Rect* GetCollider();
+	bool GemCollected();
 
 
 	//setters
@@ -31,6 +32,7 @@ public:
 	void SetVelocity(glm::vec2 p);
 	void SetSprite();
 	void SetRotation(float r);
+	void SetGemCollected(bool b);
 
 
 
@@ -48,6 +50,6 @@ private:
 	float m_maxSpeed;
 	float m_rotation = 0;
 	bool  m_triggeredCollider = false;
-	
+	bool m_gemCollected = false;
 };
 

@@ -159,7 +159,7 @@
       <Filter>Header Files\Pathfinding</Filter>
     </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
